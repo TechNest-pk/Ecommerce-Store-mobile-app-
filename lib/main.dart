@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'E-commerce Store',
       theme: ThemeData(
-        primaryColor: Colors.blue[900],
+        primaryColor: Colors.blue[100],
         accentColor: Colors.redAccent,
       ),
       home: HomeScreen(),

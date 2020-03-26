@@ -24,28 +24,28 @@ class _CategoriesCircleState extends State<CategoriesCircle> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: MediaQuery.of(context).size.height / 12,
+        height: MediaQuery.of(context).size.height / 10,
         child: ListView.builder(
           itemCount: imgList.length,
           scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) => ClipRRect(
-            borderRadius: BorderRadius.circular(150),
-            child: Container(
-              width: 70,
-              margin: EdgeInsets.symmetric(horizontal: 0),
-              decoration: BoxDecoration(
-                color: Colors.cyan[900],
+          itemBuilder: (BuildContext context, int index) => Container(
+            width: 60,
+            margin: EdgeInsets.symmetric(horizontal: 5),
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(ProductsOverviewScreen.routeName);
+              },
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(imgList[index]),
               ),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(ProductsOverviewScreen.routeName);
-                },
-                child: Image.network(
-                  imgList[index],
-                  fit: BoxFit.fill,
-                ),
-              ),
+              // Image.network(
+              //   imgList[index],
+              //   fit: BoxFit.fill,
+              // ),
             ),
           ),
         ),
