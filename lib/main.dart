@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './products_overview.dart';
-import './product_detail_screen.dart';
-import './home_screen.dart';
+import './screens/products_overview.dart';
+import './screens/product_detail_screen.dart';
+import './screens/home_screen.dart';
 
 void main() => runApp(MyApp());
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './widgets/Categories_circle.dart';
-import './widgets/newArrival.dart';
-import './widgets/popular_items.dart';
+import '../widgets/Categories_circle.dart';
+import '../widgets/newArrival.dart';
+import '../widgets/popular_items.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../products_overview.dart';
+import '../screens/products_overview.dart';
 
 class CategoriesCircle extends StatefulWidget {
   @override
