@@ -37,9 +37,6 @@ class HomeScreen extends StatelessWidget {
             Flexible(
               child: CategoriesCircle(),
             ),
-            SizedBox(
-              height: 15,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -65,9 +62,6 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             NewArrival(),
-            SizedBox(
-              height: 15,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
