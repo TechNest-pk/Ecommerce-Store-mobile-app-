@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../screens/products_overview.dart';
+// import '../screens/products_overview.dart';
+import '../screens/categories_overview_screen.dart';
 
 class CategoriesCircle extends StatefulWidget {
   @override
@@ -37,7 +38,7 @@ class _CategoriesCircleState extends State<CategoriesCircle> {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context)
-                    .pushNamed(ProductsOverviewScreen.routeName);
+                    .pushNamed(CategoriesOverviewScreen.routeName);
               },
               child: CircleAvatar(
                 backgroundImage: NetworkImage(imgList[index]),
