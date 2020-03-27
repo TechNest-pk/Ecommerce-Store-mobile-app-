@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../screens/product_detail_screen.dart';
 
-class ProductItem extends StatelessWidget {
+class CategorieItem extends StatelessWidget {
   final String id;
   final String title;
   final String imageUrl;
-  final String description;
-  final double price;
-  final int sale;
 
-  ProductItem(this.id, this.title, this.description, this.price, this.sale,
-      this.imageUrl);
+  CategorieItem(this.id, this.title, this.imageUrl);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +21,7 @@ class ProductItem extends StatelessWidget {
               arguments: id,
             );
           },
-          child: Column(
+          child: Stack(
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width / 2,
@@ -39,12 +35,7 @@ class ProductItem extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              Text(
-                'Rs: ' + price.toString(),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ],
+              ],
           ),
         ),
       ),
