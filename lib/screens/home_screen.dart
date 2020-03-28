@@ -6,6 +6,7 @@ import '../widgets/newArrival.dart';
 import '../widgets/popular_items.dart';
 import '../screens/categories_overview_screen.dart';
 import '../widgets/appDrawer.dart';
+import '../widgets/profile.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -24,10 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'Cart',
       style: optionStyle,
     ),
-    Text(
-      'Account',
-      style: optionStyle,
-    ),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {
