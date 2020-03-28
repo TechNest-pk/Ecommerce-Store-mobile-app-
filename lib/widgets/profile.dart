@@ -50,7 +50,7 @@ class Profile extends StatelessWidget {
                   title: Text('+92 3342219404',
                     style: TextStyle(
                       color: Colors.pinkAccent[400],
-                      fontSize: 15,
+                      fontSize: 17,
                     ),
                     ),
                 )
@@ -67,7 +67,7 @@ class Profile extends StatelessWidget {
                   title: Text('omarh.ismail1@gmail.com',
                     style: TextStyle(
                       color: Colors.pinkAccent[400],
-                      fontSize: 15,
+                      fontSize: 17,
                     ),
                     ),  
                 )
