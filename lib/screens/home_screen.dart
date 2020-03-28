@@ -5,6 +5,7 @@ import '../widgets/Categories_circle.dart';
 import '../widgets/newArrival.dart';
 import '../widgets/popular_items.dart';
 import '../screens/categories_overview_screen.dart';
+import '../widgets/appDrawer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -39,8 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('E-Commerce Store'),),
+        title: Center(
+          child: Text('E-Commerce Store'),
+        ),
       ),
+      drawer: AppDrawer(),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -80,12 +84,13 @@ class Home extends StatelessWidget {
         Container(
           height: 220,
           decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                    'https://datsgreathome.files.wordpress.com/2019/11/women-fashion.jpg?w=770'),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(8.0)),
+            image: DecorationImage(
+              image: NetworkImage(
+                  'https://datsgreathome.files.wordpress.com/2019/11/women-fashion.jpg?w=770'),
+              fit: BoxFit.cover,
+            ),
+            // borderRadius: BorderRadius.circular(8.0),
+          ),
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Text(
