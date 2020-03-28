@@ -7,7 +7,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            height: 200,
+            height: 220,
             child: UserAccountsDrawerHeader(
 //              decoration: BoxDecoration(image: DecorationImage(image: AssetImage("img/mazzad.png"))),
               accountName: Text("Omar Hatem"),
