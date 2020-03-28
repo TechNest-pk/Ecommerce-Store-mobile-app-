@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'E-commerce Store',
       theme: ThemeData(
-        primaryColor: Colors.blue[100],
+        primaryColor: Color(0xFFEC407A),
         accentColor: Colors.redAccent,
       ),
       home: HomeScreen(),

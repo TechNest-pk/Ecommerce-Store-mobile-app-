@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('E-Commerce Store')),
+        title: Center(child: Text('E-Commerce Store'),),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.cyan[300],
+        selectedItemColor: Colors.pink,
         unselectedIconTheme: IconThemeData(color: Colors.grey),
         onTap: _onItemTapped,
       ),
@@ -75,10 +75,10 @@ class _HomeScreenState extends State<HomeScreen> {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: <Widget>[
         Container(
-          height: MediaQuery.of(context).size.height / 4,
+          height: 220,
           decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
@@ -97,9 +97,7 @@ class Home extends StatelessWidget {
             ),
           ),
         ),
-        Flexible(
-          child: CategoriesCircle(),
-        ),
+        CategoriesCircle(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[

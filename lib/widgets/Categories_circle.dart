@@ -25,7 +25,7 @@ class _CategoriesCircleState extends State<CategoriesCircle> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: MediaQuery.of(context).size.height / 10,
+        height: 70,
         child: ListView.builder(
           itemCount: imgList.length,
           scrollDirection: Axis.horizontal,

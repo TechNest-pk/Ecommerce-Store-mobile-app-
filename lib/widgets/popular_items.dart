@@ -19,7 +19,7 @@ class PopularItems extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: MediaQuery.of(context).size.height * 3 / 13,
+        height: 170,
         child: ListView.builder(
           itemCount: imgList.length,
           scrollDirection: Axis.horizontal,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class NewArrival extends StatelessWidget {
-  List imgList = [
+  List _imgList = [
     'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ4lrIdut3UKnYdwZ84MduWhGNhkdVyHGWWhXNAW8z6rFAtEqPU',
     'https://i.ytimg.com/vi/jiBL43AmAO4/maxresdefault.jpg',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQF2KEWUxozG_A1sKdWVpeyuA1mfEUCF-rvmkZNnXvZ03X7LOsp',
@@ -19,7 +19,7 @@ class NewArrival extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CarouselSlider(
-                height: MediaQuery.of(context).size.height / 6,
+                height: 150,
                 initialPage: 0,
                 enlargeCenterPage: true,
                 autoPlay: true,
@@ -29,7 +29,7 @@ class NewArrival extends StatelessWidget {
                 autoPlayAnimationDuration: Duration(milliseconds: 2000),
                 pauseAutoPlayOnTouch: Duration(seconds: 10),
                 scrollDirection: Axis.horizontal,
-                items: imgList.map((imgUrl) {
+                items: _imgList.map((imgUrl) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
