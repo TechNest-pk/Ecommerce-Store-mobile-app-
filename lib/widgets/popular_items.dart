@@ -27,7 +27,7 @@ class PopularItems extends StatelessWidget {
               width: 90,
               margin: EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.transparent,
               ),
               child: GestureDetector(
                 onTap: () {

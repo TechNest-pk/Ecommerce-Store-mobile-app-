@@ -33,7 +33,7 @@ class _CategoriesCircleState extends State<CategoriesCircle> {
             width: 60,
             margin: EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.transparent,
             ),
             child: GestureDetector(
               onTap: () {

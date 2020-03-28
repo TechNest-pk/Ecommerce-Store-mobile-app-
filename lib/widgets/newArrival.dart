@@ -36,7 +36,7 @@ class NewArrival extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.symmetric(horizontal: 10.0),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.transparent,
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(9.0),
