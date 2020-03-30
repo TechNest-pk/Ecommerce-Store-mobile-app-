@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import './http_exception.dart';
+import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier {
   String _token;
@@ -29,7 +29,7 @@ class Auth with ChangeNotifier {
     return _userId;
   }
 
-  Future<void> signup(String email, String password) async {
+  Future<void> signup(String email, String password, String name) async {
     final url =
         'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyC10oZccoBbOfGE7zuNK9UKgP_dUvyipnM';
     try {
@@ -39,6 +39,7 @@ class Auth with ChangeNotifier {
           {
             'email': email,
             'password': password,
+            'name': name,
             'returnSecureToken': true,
           },
         ),
