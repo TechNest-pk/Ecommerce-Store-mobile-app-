@@ -182,7 +182,7 @@ class _AuthCardState extends State<AuthCard> {
       ),
       elevation: 8.0,
       child: Container(
-        height: _authMode == AuthMode.Signup ? 320 : 260,
+        height: _authMode == AuthMode.Signup ? 400 : 260,
         constraints:
             BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
         width: deviceSize.width * 0.75,
@@ -228,23 +228,45 @@ class _AuthCardState extends State<AuthCard> {
                   // },
                 ),
                 _authMode == AuthMode.Signup
-                    ? TextFormField(
-                        enabled: _authMode == AuthMode.Signup,
-                        decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.lock,
-                              color: Colors.pinkAccent[400],
-                            ),
-                            labelText: 'Confirm Password'),
-                        obscureText: true,
-                        // validator: _authMode == AuthMode.Signup
-                        //     ? (value) {
-                        //         if (value != _passwordController.text) {
-                        //           return 'Passwords do not match!';
-                        //         }
-                        //       }
-                        //     : null,
-                      )
+                    ? Column(
+                      children: <Widget>[
+                        
+                TextFormField(
+                  decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.person,
+                        color: Colors.pinkAccent[400],
+                      ),
+                      labelText: 'Name'),
+                  keyboardType: TextInputType.text,
+                  // validator: (value) {
+                  //   if (value.isEmpty || !value.contains('@')) {
+                  //     return 'Invalid email!';
+                  //   }
+                  // },
+                  // onSaved: (value) {
+                  //   _authData['email'] = value;
+                  // },
+                ),
+                        TextFormField(
+                            enabled: _authMode == AuthMode.Signup,
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.lock,
+                                  color: Colors.pinkAccent[400],
+                                ),
+                                labelText: 'Confirm Password'),
+                            obscureText: true,
+                            // validator: _authMode == AuthMode.Signup
+                            //     ? (value) {
+                            //         if (value != _passwordController.text) {
+                            //           return 'Passwords do not match!';
+                            //         }
+                            //       }
+                            //     : null,
+                          ),
+                      ],
+                    )
                     : Container(),
                 SizedBox(
                   height: 20,

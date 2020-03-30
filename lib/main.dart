@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'E-commerce Store',
       theme: ThemeData(
         primaryColor: Color(0xFFEC407A),
-        accentColor: Colors.grey,
+        accentColor: Colors.grey[350],
       ),
       home: AuthScreen(),
       routes: {
