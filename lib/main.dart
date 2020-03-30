@@ -4,6 +4,7 @@ import './screens/products_overview.dart';
 import './screens/product_detail_screen.dart';
 import './screens/home_screen.dart';
 import './screens/categories_overview_screen.dart';
+import './screens/auth_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,9 +15,9 @@ class MyApp extends StatelessWidget {
       title: 'E-commerce Store',
       theme: ThemeData(
         primaryColor: Color(0xFFEC407A),
-        accentColor: Colors.redAccent,
+        accentColor: Colors.grey,
       ),
-      home: HomeScreen(),
+      home: AuthScreen(),
       routes: {
         ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
         ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
