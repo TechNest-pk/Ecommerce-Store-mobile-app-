@@ -9,11 +9,15 @@ import '../widgets/appDrawer.dart';
 import '../widgets/profile.dart';
 
 class HomeScreen extends StatefulWidget {
+
+  static const routeName = '/homeScreen';
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =

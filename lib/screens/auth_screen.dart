@@ -1,10 +1,13 @@
-import 'dart:math';
+import 'dart:ffi';
 
+import 'package:ecommerce_store/providers/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/http_exception.dart';
 import '../providers/auth.dart';
+import '../providers/users.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -91,6 +94,32 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
+  final _form = GlobalKey<FormState>();
+
+  var _editedUser = User(
+    uid: null,
+    userName: '',
+    email: '',
+    zipCode: 0,
+    address: '',
+    profileUrl: '',
+    city: '',
+    contact: 0,
+    state: '',
+  );
+
+  // var _initValues = {
+  //   'uid': '',
+  //   'userName': '',
+  //   'email': '',
+  //   'zipCode': '',
+  //   'address': '',
+  //   'profileUrl': '',
+  //   'city': '',
+  //   'contact': '',
+  //   'state': '',
+  // };
+
   AuthMode _authMode = AuthMode.Login;
   Map<String, String> _authData = {
     'email': '',
@@ -118,6 +147,66 @@ class _AuthCardState extends State<AuthCard> {
     );
   }
 
+  Future<void> _saveForm() async {
+    final isValid = _form.currentState.validate();
+    if (!isValid) {
+      return;
+    }
+    _form.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
+    // if (_editedProduct.id != null) {
+    //   await Provider.of<Products>(context, listen: false)
+    //       .updateProduct(_editedProduct.id, _editedProduct);
+    //   // print('Data of image' + _storedImage.path);
+    //   // uploadFile();
+    // } else {
+      try {
+        await Provider.of<Users>(context, listen: false)
+            .addUser(_editedUser);
+      } catch (error) {
+        await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('An error occurred!'),
+            content: Text('Something went wrong.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        );
+      // }
+      // finally {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      //   Navigator.of(context).pop();
+      // }
+    }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
+  }
+
+  FirebaseUser user;
+
+  Future<void> _getUserData() async {
+    FirebaseUser userData = await FirebaseAuth.instance.currentUser();
+
+    setState(() {
+      user = userData;
+      print(user.uid);
+    });
+    }
+
   Future<void> _submit() async {
     if (!_formKey.currentState.validate()) {
       // Invalid!
@@ -130,13 +219,19 @@ class _AuthCardState extends State<AuthCard> {
     try {
       if (_authMode == AuthMode.Login) {
         // Log user in
+        await Provider.of<Auth>(context, listen: false).login(
+          _authData['email'],
+          _authData['password'],
+        );
       } else {
         // Sign user up
+        // await _saveForm();
         await Provider.of<Auth>(context, listen: false).signup(
           _authData['email'],
           _authData['password'],
           _authData['name'],
         );
+        await _getUserData();
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
@@ -155,12 +250,12 @@ class _AuthCardState extends State<AuthCard> {
     } catch (error) {
       const errorMessage =
           'Could not authenticate you. Please try again later.';
-      _showErrorDialog(errorMessage);
+      _showErrorDialog(error.toString());
     }
 
-    setState(() {
-      _isLoading = false;
-    });
+    // setState(() {
+    //   _isLoading = false;
+    // });
   }
 
   void _switchAuthMode() {
@@ -209,6 +304,17 @@ class _AuthCardState extends State<AuthCard> {
                   },
                   onSaved: (value) {
                     _authData['email'] = value;
+                        _editedUser = User(
+                          userName: _editedUser.userName,
+                          contact: _editedUser.contact,
+                          state:_editedUser.state,
+                          address: _editedUser.address,
+                          email: value,
+                          city: _editedUser.city,
+                          profileUrl: _editedUser.profileUrl,
+                          zipCode: _editedUser.zipCode,
+                          uid: _editedUser.uid,
+                        );
                   },
                 ),
                 TextFormField(
@@ -227,25 +333,157 @@ class _AuthCardState extends State<AuthCard> {
                   },
                   onSaved: (value) {
                     _authData['password'] = value;
+                     _editedUser = User(
+                          userName: _editedUser.userName,
+                          contact: _editedUser.contact,
+                          state:_editedUser.state,
+                          address: _editedUser.address,
+                          email: value,
+                          city: _editedUser.city,
+                          profileUrl: _editedUser.profileUrl,
+                          zipCode: _editedUser.zipCode,
+                          uid: _editedUser.uid,
+                        );
                   },
                 ),
                 _authMode == AuthMode.Signup
                     ? Column(
-                      children: <Widget>[
-                        
-                TextFormField(
-                  decoration: InputDecoration(
-                      icon: Icon(
-                        Icons.person,
-                        color: Colors.pinkAccent[400],
-                      ),
-                      labelText: 'Name'),
-                  keyboardType: TextInputType.text,
-                  onSaved: (value) {
-                    _authData['name'] = value;
-                  },
-                ),
-                        TextFormField(
+                        children: <Widget>[
+                          TextFormField(
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.pinkAccent[400],
+                                ),
+                                labelText: 'Name'),
+                            keyboardType: TextInputType.text,
+                            onSaved: (value) {
+                              _authData['name'] = value;
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.pinkAccent[400],
+                                ),
+                                labelText: 'Contact'),
+                            keyboardType: TextInputType.text,
+                            onSaved: (value) {
+                               _editedUser = User(
+                          userName: _editedUser.userName,
+                          contact: int.parse(value),
+                          state:_editedUser.state,
+                          address: _editedUser.address,
+                          email: _editedUser.email,
+                          city: _editedUser.city,
+                          profileUrl: _editedUser.profileUrl,
+                          zipCode: _editedUser.zipCode,
+                          uid: _editedUser.uid,
+                        );
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.pinkAccent[400],
+                                ),
+                                labelText: 'State'),
+                            keyboardType: TextInputType.text,
+                            onSaved: (value) {
+                              _editedUser = User(
+                          userName: _editedUser.userName,
+                          contact: _editedUser.contact,
+                          state: value,
+                          address: _editedUser.address,
+                          email: _editedUser.email,
+                          city: _editedUser.city,
+                          profileUrl: _editedUser.profileUrl,
+                          zipCode: _editedUser.zipCode,
+                          uid: _editedUser.uid,
+                        );
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.pinkAccent[400],
+                                ),
+                                labelText: 'City'),
+                            keyboardType: TextInputType.text,
+                            onSaved: (value) {
+                              _editedUser = User(
+                          userName: _editedUser.userName,
+                          contact: _editedUser.contact,
+                          state:_editedUser.state,
+                          address: _editedUser.address,
+                          email: _editedUser.email,
+                          city: value,
+                          profileUrl: _editedUser.profileUrl,
+                          zipCode: _editedUser.zipCode,
+                          uid: _editedUser.uid,
+                        );
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.pinkAccent[400],
+                                ),
+                                labelText: 'ZipCode'),
+                            keyboardType: TextInputType.text,
+                            onSaved: (value) {
+                              _authData['zipCode'] = value;
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.pinkAccent[400],
+                                ),
+                                labelText: 'Address'),
+                            keyboardType: TextInputType.text,
+                            onSaved: (value) {
+                             _editedUser = User(
+                          userName: _editedUser.userName,
+                          contact: _editedUser.contact,
+                          state:_editedUser.state,
+                          address: value,
+                          email: _editedUser.email,
+                          city: _editedUser.city,
+                          profileUrl: _editedUser.profileUrl,
+                          zipCode: _editedUser.zipCode,
+                          uid: _editedUser.uid,
+                        );
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.pinkAccent[400],
+                                ),
+                                labelText: 'Profile Url'),
+                            keyboardType: TextInputType.text,
+                            onSaved: (value) {
+                              _editedUser = User(
+                          userName: _editedUser.userName,
+                          contact: _editedUser.contact,
+                          state:_editedUser.state,
+                          address: _editedUser.address,
+                          email: _editedUser.email,
+                          city: _editedUser.city,
+                          profileUrl: value,
+                          zipCode: _editedUser.zipCode,
+                          uid: _editedUser.uid,
+                        );
+                            },
+                          ),
+                          TextFormField(
                             enabled: _authMode == AuthMode.Signup,
                             decoration: InputDecoration(
                                 icon: Icon(
@@ -262,29 +500,28 @@ class _AuthCardState extends State<AuthCard> {
                                   }
                                 : null,
                           ),
-                      ],
-                    )
+                        ],
+                      )
                     : Container(),
                 SizedBox(
                   height: 20,
                 ),
-                if (_isLoading)
-                  CircularProgressIndicator()
-                else
-                  RaisedButton(
-                    child:
-                        Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
-                    onPressed: (){
-                      _submit();
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-                    color: Theme.of(context).accentColor,
-                    textColor: Theme.of(context).primaryColor,
-                  ),
+                _isLoading
+                    ? CircularProgressIndicator()
+                    : RaisedButton(
+                        child: Text(
+                            _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
+                        onPressed: () {
+                          _submit();
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 30.0, vertical: 8.0),
+                        color: Theme.of(context).accentColor,
+                        textColor: Theme.of(context).primaryColor,
+                      ),
                 FlatButton(
                   child: Text(
                       '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
