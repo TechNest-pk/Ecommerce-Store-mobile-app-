@@ -105,34 +105,6 @@ class _AuthCardState extends State<AuthCard> {
     state: '',
   );
 
-  var _initValues = {
-    'uid': '',
-    'userName': '',
-    'email': '',
-    'zipCode': '',
-    'address': '',
-    'profileUrl': '',
-    'city': '',
-    'contact': '',
-    'state': '',
-  };
-
-  @override
-  void didChangeDependencies() {
-    _initValues = {
-      'userName': _editedUser.userName,
-      'email': _editedUser.email,
-      'contact': _editedUser.contact.toString(),
-      'imageUrl': _editedUser.profileUrl,
-      'address': _editedUser.address,
-      'zipCode': _editedUser.zipCode,
-      'state': _editedUser.state,
-      'city': _editedUser.city,
-    };
-
-    super.didChangeDependencies();
-  }
-
   AuthMode _authMode = AuthMode.Login;
   Map<String, String> _authData = {
     'email': '',
@@ -240,8 +212,6 @@ class _AuthCardState extends State<AuthCard> {
       }
       _showErrorDialog(errorMessage);
     } catch (error) {
-      const errorMessage =
-          'Could not authenticate you. Please try again later.';
       _showErrorDialog(error.toString());
     }
 
@@ -282,7 +252,6 @@ class _AuthCardState extends State<AuthCard> {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  initialValue: _initValues['email'],
                   decoration: InputDecoration(
                       icon: Icon(
                         Icons.email,
@@ -294,6 +263,7 @@ class _AuthCardState extends State<AuthCard> {
                     if (value.isEmpty || !value.contains('@')) {
                       return 'Invalid email!';
                     }
+                    return null;
                   },
                   onSaved: (value) {
                     _authData['email'] = value;
@@ -323,6 +293,7 @@ class _AuthCardState extends State<AuthCard> {
                     if (value.isEmpty || value.length < 5) {
                       return 'Password is too short!';
                     }
+                    return null;
                   },
                   onSaved: (value) {
                     _authData['password'] = value;
@@ -332,7 +303,6 @@ class _AuthCardState extends State<AuthCard> {
                     ? Column(
                         children: <Widget>[
                           TextFormField(
-                            initialValue: _initValues['userName'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -340,6 +310,12 @@ class _AuthCardState extends State<AuthCard> {
                                 ),
                                 labelText: 'Name'),
                             keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please provide a value.';
+                              }
+                              return null;
+                            },
                             onSaved: (value) {
                               _editedUser = User(
                                 userName: value,
@@ -355,7 +331,6 @@ class _AuthCardState extends State<AuthCard> {
                             },
                           ),
                           TextFormField(
-                            initialValue: _initValues['contact'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -363,6 +338,12 @@ class _AuthCardState extends State<AuthCard> {
                                 ),
                                 labelText: 'Contact'),
                             keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please provide a value.';
+                              }
+                              return null;
+                            },
                             onSaved: (value) {
                               _editedUser = User(
                                 userName: _editedUser.userName,
@@ -378,7 +359,6 @@ class _AuthCardState extends State<AuthCard> {
                             },
                           ),
                           TextFormField(
-                            initialValue: _initValues['state'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -386,6 +366,12 @@ class _AuthCardState extends State<AuthCard> {
                                 ),
                                 labelText: 'State'),
                             keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please provide a value.';
+                              }
+                              return null;
+                            },
                             onSaved: (value) {
                               _editedUser = User(
                                 userName: _editedUser.userName,
@@ -401,7 +387,6 @@ class _AuthCardState extends State<AuthCard> {
                             },
                           ),
                           TextFormField(
-                            initialValue: _initValues['city'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -409,6 +394,12 @@ class _AuthCardState extends State<AuthCard> {
                                 ),
                                 labelText: 'City'),
                             keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please provide a value.';
+                              }
+                              return null;
+                            },
                             onSaved: (value) {
                               _editedUser = User(
                                 userName: _editedUser.userName,
@@ -424,7 +415,6 @@ class _AuthCardState extends State<AuthCard> {
                             },
                           ),
                           TextFormField(
-                            initialValue: _initValues['zipCode'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -432,12 +422,17 @@ class _AuthCardState extends State<AuthCard> {
                                 ),
                                 labelText: 'ZipCode'),
                             keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please provide a value.';
+                              }
+                              return null;
+                            },
                             onSaved: (value) {
                               _authData['zipCode'] = value;
                             },
                           ),
                           TextFormField(
-                            initialValue: _initValues['address'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -445,6 +440,12 @@ class _AuthCardState extends State<AuthCard> {
                                 ),
                                 labelText: 'Address'),
                             keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please provide a value.';
+                              }
+                              return null;
+                            },
                             onSaved: (value) {
                               _editedUser = User(
                                 userName: _editedUser.userName,
@@ -460,7 +461,6 @@ class _AuthCardState extends State<AuthCard> {
                             },
                           ),
                           TextFormField(
-                            initialValue: _initValues['profileUrl'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -468,6 +468,12 @@ class _AuthCardState extends State<AuthCard> {
                                 ),
                                 labelText: 'Profile Url'),
                             keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please provide a value.';
+                              }
+                              return null;
+                            },
                             onSaved: (value) {
                               _editedUser = User(
                                 userName: _editedUser.userName,
@@ -496,6 +502,7 @@ class _AuthCardState extends State<AuthCard> {
                                     if (value != _passwordController.text) {
                                       return 'Passwords do not match!';
                                     }
+                                    return null;
                                   }
                                 : null,
                           ),
