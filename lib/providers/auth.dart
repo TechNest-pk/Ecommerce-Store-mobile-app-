@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,17 +30,18 @@ class Auth with ChangeNotifier {
     return _userId;
   }
 
-  Future<void> signup(String email, String password, String name) async {
+  Future<void> signup(String email, String password) async {
     final url =
         'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyC10oZccoBbOfGE7zuNK9UKgP_dUvyipnM';
     try {
+
+      // FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
       final response = await http.post(
         url,
         body: json.encode(
           {
             'email': email,
             'password': password,
-            'userName': name,
             'returnSecureToken': true,
           },
         ),

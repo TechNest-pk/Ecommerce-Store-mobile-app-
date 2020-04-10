@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/Categories_circle.dart';
 import '../widgets/newArrival.dart';
@@ -9,7 +10,6 @@ import '../widgets/appDrawer.dart';
 import '../widgets/profile.dart';
 
 class HomeScreen extends StatefulWidget {
-
   static const routeName = '/homeScreen';
 
   @override
@@ -17,7 +17,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
+  FirebaseUser user;
+
+  @override
+  void initState(){
+    super.initState();
+    _getUserData();
+  }
+
+  Future<void> _getUserData() async {
+    try {
+      FirebaseUser userData = await FirebaseAuth.instance.currentUser();
+
+      if(userData != null){
+        user = userData;
+        print(user.email);
+        print(user.uid);
+      }else{
+        print('nothing found');
+      }
+      // print(userData.uid);
+       
+    } catch (e) {
+      print(e);
+    }
+  }
+
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =

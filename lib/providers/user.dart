@@ -6,7 +6,7 @@ class User with ChangeNotifier {
   final String userName;
   final String email;
   final String address;
-  final int zipCode;
+  final String zipCode;
   final String city;
   final String state;
   final String profileUrl;

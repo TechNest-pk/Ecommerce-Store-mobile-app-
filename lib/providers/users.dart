@@ -15,7 +15,7 @@ class Users with ChangeNotifier {
   Users(this.authToken, this.userId, this._items);
 
   Future<void> addUser(User user) async {
-    final url = 'http://10.0.75.1:8081/user/user-register';
+    final url = 'https://ecomerce-store-b9498.firebaseio.com/users.json';
     try {
       final response = await http.post(
         url,

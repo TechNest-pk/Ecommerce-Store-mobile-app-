@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:ecommerce_store/providers/user.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -92,7 +89,7 @@ class AuthCard extends StatefulWidget {
 }
 
 class _AuthCardState extends State<AuthCard> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  // final GlobalKey<FormState> _formKey = GlobalKey();
 
   final _form = GlobalKey<FormState>();
 
@@ -100,7 +97,7 @@ class _AuthCardState extends State<AuthCard> {
     uid: null,
     userName: '',
     email: '',
-    zipCode: 0,
+    zipCode: '',
     address: '',
     profileUrl: '',
     city: '',
@@ -108,23 +105,38 @@ class _AuthCardState extends State<AuthCard> {
     state: '',
   );
 
-  // var _initValues = {
-  //   'uid': '',
-  //   'userName': '',
-  //   'email': '',
-  //   'zipCode': '',
-  //   'address': '',
-  //   'profileUrl': '',
-  //   'city': '',
-  //   'contact': '',
-  //   'state': '',
-  // };
+  var _initValues = {
+    'uid': '',
+    'userName': '',
+    'email': '',
+    'zipCode': '',
+    'address': '',
+    'profileUrl': '',
+    'city': '',
+    'contact': '',
+    'state': '',
+  };
+
+  @override
+  void didChangeDependencies() {
+    _initValues = {
+      'userName': _editedUser.userName,
+      'email': _editedUser.email,
+      'contact': _editedUser.contact.toString(),
+      'imageUrl': _editedUser.profileUrl,
+      'address': _editedUser.address,
+      'zipCode': _editedUser.zipCode,
+      'state': _editedUser.state,
+      'city': _editedUser.city,
+    };
+
+    super.didChangeDependencies();
+  }
 
   AuthMode _authMode = AuthMode.Login;
   Map<String, String> _authData = {
     'email': '',
     'password': '',
-    'name': '',
   };
   var _isLoading = false;
   final _passwordController = TextEditingController();
@@ -156,38 +168,30 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = true;
     });
-    // if (_editedProduct.id != null) {
-    //   await Provider.of<Products>(context, listen: false)
-    //       .updateProduct(_editedProduct.id, _editedProduct);
+    // if (_editedUser.id != null) {
+    //   await Provider.of<Users>(context, listen: false)
+    //       .updateProduct(_editedUser.id, _editedUser);
     //   // print('Data of image' + _storedImage.path);
     //   // uploadFile();
     // } else {
-      try {
-        await Provider.of<Users>(context, listen: false)
-            .addUser(_editedUser);
-      } catch (error) {
-        await showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text('An error occurred!'),
-            content: Text('Something went wrong.'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Okay'),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-              )
-            ],
-          ),
-        );
-      // }
-      // finally {
-      //   setState(() {
-      //     _isLoading = false;
-      //   });
-      //   Navigator.of(context).pop();
-      // }
+    try {
+      await Provider.of<Users>(context, listen: false).addUser(_editedUser);
+    } catch (error) {
+      await showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('An error occurred!'),
+          content: Text('Something went wrong.'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Okay'),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            )
+          ],
+        ),
+      );
     }
     setState(() {
       _isLoading = false;
@@ -196,23 +200,12 @@ class _AuthCardState extends State<AuthCard> {
     // Navigator.of(context).pop();
   }
 
-  FirebaseUser user;
-
-  Future<void> _getUserData() async {
-    FirebaseUser userData = await FirebaseAuth.instance.currentUser();
-
-    setState(() {
-      user = userData;
-      print(user.uid);
-    });
-    }
-
   Future<void> _submit() async {
-    if (!_formKey.currentState.validate()) {
+    if (!_form.currentState.validate()) {
       // Invalid!
       return;
     }
-    _formKey.currentState.save();
+    _form.currentState.save();
     setState(() {
       _isLoading = true;
     });
@@ -225,13 +218,12 @@ class _AuthCardState extends State<AuthCard> {
         );
       } else {
         // Sign user up
-        // await _saveForm();
         await Provider.of<Auth>(context, listen: false).signup(
           _authData['email'],
           _authData['password'],
-          _authData['name'],
         );
-        await _getUserData();
+
+        await _saveForm();
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
@@ -285,11 +277,12 @@ class _AuthCardState extends State<AuthCard> {
         width: deviceSize.width * 0.75,
         padding: EdgeInsets.all(16.0),
         child: Form(
-          key: _formKey,
+          key: _form,
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  initialValue: _initValues['email'],
                   decoration: InputDecoration(
                       icon: Icon(
                         Icons.email,
@@ -304,17 +297,17 @@ class _AuthCardState extends State<AuthCard> {
                   },
                   onSaved: (value) {
                     _authData['email'] = value;
-                        _editedUser = User(
-                          userName: _editedUser.userName,
-                          contact: _editedUser.contact,
-                          state:_editedUser.state,
-                          address: _editedUser.address,
-                          email: value,
-                          city: _editedUser.city,
-                          profileUrl: _editedUser.profileUrl,
-                          zipCode: _editedUser.zipCode,
-                          uid: _editedUser.uid,
-                        );
+                    _editedUser = User(
+                      userName: _editedUser.userName,
+                      contact: _editedUser.contact,
+                      state: _editedUser.state,
+                      address: _editedUser.address,
+                      email: value,
+                      city: _editedUser.city,
+                      profileUrl: _editedUser.profileUrl,
+                      zipCode: _editedUser.zipCode,
+                      uid: _editedUser.uid,
+                    );
                   },
                 ),
                 TextFormField(
@@ -333,23 +326,13 @@ class _AuthCardState extends State<AuthCard> {
                   },
                   onSaved: (value) {
                     _authData['password'] = value;
-                     _editedUser = User(
-                          userName: _editedUser.userName,
-                          contact: _editedUser.contact,
-                          state:_editedUser.state,
-                          address: _editedUser.address,
-                          email: value,
-                          city: _editedUser.city,
-                          profileUrl: _editedUser.profileUrl,
-                          zipCode: _editedUser.zipCode,
-                          uid: _editedUser.uid,
-                        );
                   },
                 ),
                 _authMode == AuthMode.Signup
                     ? Column(
                         children: <Widget>[
                           TextFormField(
+                            initialValue: _initValues['userName'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -358,10 +341,21 @@ class _AuthCardState extends State<AuthCard> {
                                 labelText: 'Name'),
                             keyboardType: TextInputType.text,
                             onSaved: (value) {
-                              _authData['name'] = value;
+                              _editedUser = User(
+                                userName: value,
+                                contact: _editedUser.contact,
+                                state: _editedUser.state,
+                                address: _editedUser.address,
+                                email: _editedUser.email,
+                                city: _editedUser.city,
+                                profileUrl: _editedUser.profileUrl,
+                                zipCode: _editedUser.zipCode,
+                                uid: _editedUser.uid,
+                              );
                             },
                           ),
                           TextFormField(
+                            initialValue: _initValues['contact'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -370,20 +364,21 @@ class _AuthCardState extends State<AuthCard> {
                                 labelText: 'Contact'),
                             keyboardType: TextInputType.text,
                             onSaved: (value) {
-                               _editedUser = User(
-                          userName: _editedUser.userName,
-                          contact: int.parse(value),
-                          state:_editedUser.state,
-                          address: _editedUser.address,
-                          email: _editedUser.email,
-                          city: _editedUser.city,
-                          profileUrl: _editedUser.profileUrl,
-                          zipCode: _editedUser.zipCode,
-                          uid: _editedUser.uid,
-                        );
+                              _editedUser = User(
+                                userName: _editedUser.userName,
+                                contact: int.parse(value),
+                                state: _editedUser.state,
+                                address: _editedUser.address,
+                                email: _editedUser.email,
+                                city: _editedUser.city,
+                                profileUrl: _editedUser.profileUrl,
+                                zipCode: _editedUser.zipCode,
+                                uid: _editedUser.uid,
+                              );
                             },
                           ),
                           TextFormField(
+                            initialValue: _initValues['state'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -393,19 +388,20 @@ class _AuthCardState extends State<AuthCard> {
                             keyboardType: TextInputType.text,
                             onSaved: (value) {
                               _editedUser = User(
-                          userName: _editedUser.userName,
-                          contact: _editedUser.contact,
-                          state: value,
-                          address: _editedUser.address,
-                          email: _editedUser.email,
-                          city: _editedUser.city,
-                          profileUrl: _editedUser.profileUrl,
-                          zipCode: _editedUser.zipCode,
-                          uid: _editedUser.uid,
-                        );
+                                userName: _editedUser.userName,
+                                contact: _editedUser.contact,
+                                state: value,
+                                address: _editedUser.address,
+                                email: _editedUser.email,
+                                city: _editedUser.city,
+                                profileUrl: _editedUser.profileUrl,
+                                zipCode: _editedUser.zipCode,
+                                uid: _editedUser.uid,
+                              );
                             },
                           ),
                           TextFormField(
+                            initialValue: _initValues['city'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -415,19 +411,20 @@ class _AuthCardState extends State<AuthCard> {
                             keyboardType: TextInputType.text,
                             onSaved: (value) {
                               _editedUser = User(
-                          userName: _editedUser.userName,
-                          contact: _editedUser.contact,
-                          state:_editedUser.state,
-                          address: _editedUser.address,
-                          email: _editedUser.email,
-                          city: value,
-                          profileUrl: _editedUser.profileUrl,
-                          zipCode: _editedUser.zipCode,
-                          uid: _editedUser.uid,
-                        );
+                                userName: _editedUser.userName,
+                                contact: _editedUser.contact,
+                                state: _editedUser.state,
+                                address: _editedUser.address,
+                                email: _editedUser.email,
+                                city: value,
+                                profileUrl: _editedUser.profileUrl,
+                                zipCode: _editedUser.zipCode,
+                                uid: _editedUser.uid,
+                              );
                             },
                           ),
                           TextFormField(
+                            initialValue: _initValues['zipCode'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -440,6 +437,7 @@ class _AuthCardState extends State<AuthCard> {
                             },
                           ),
                           TextFormField(
+                            initialValue: _initValues['address'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -448,20 +446,21 @@ class _AuthCardState extends State<AuthCard> {
                                 labelText: 'Address'),
                             keyboardType: TextInputType.text,
                             onSaved: (value) {
-                             _editedUser = User(
-                          userName: _editedUser.userName,
-                          contact: _editedUser.contact,
-                          state:_editedUser.state,
-                          address: value,
-                          email: _editedUser.email,
-                          city: _editedUser.city,
-                          profileUrl: _editedUser.profileUrl,
-                          zipCode: _editedUser.zipCode,
-                          uid: _editedUser.uid,
-                        );
+                              _editedUser = User(
+                                userName: _editedUser.userName,
+                                contact: _editedUser.contact,
+                                state: _editedUser.state,
+                                address: value,
+                                email: _editedUser.email,
+                                city: _editedUser.city,
+                                profileUrl: _editedUser.profileUrl,
+                                zipCode: _editedUser.zipCode,
+                                uid: _editedUser.uid,
+                              );
                             },
                           ),
                           TextFormField(
+                            initialValue: _initValues['profileUrl'],
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
@@ -471,16 +470,16 @@ class _AuthCardState extends State<AuthCard> {
                             keyboardType: TextInputType.text,
                             onSaved: (value) {
                               _editedUser = User(
-                          userName: _editedUser.userName,
-                          contact: _editedUser.contact,
-                          state:_editedUser.state,
-                          address: _editedUser.address,
-                          email: _editedUser.email,
-                          city: _editedUser.city,
-                          profileUrl: value,
-                          zipCode: _editedUser.zipCode,
-                          uid: _editedUser.uid,
-                        );
+                                userName: _editedUser.userName,
+                                contact: _editedUser.contact,
+                                state: _editedUser.state,
+                                address: _editedUser.address,
+                                email: _editedUser.email,
+                                city: _editedUser.city,
+                                profileUrl: value,
+                                zipCode: _editedUser.zipCode,
+                                uid: _editedUser.uid,
+                              );
                             },
                           ),
                           TextFormField(
@@ -511,8 +510,9 @@ class _AuthCardState extends State<AuthCard> {
                     : RaisedButton(
                         child: Text(
                             _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
-                        onPressed: () {
-                          _submit();
+                        onPressed: () async {
+                          print(_editedUser.userName);
+                          await _submit();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
