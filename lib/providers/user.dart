@@ -10,6 +10,7 @@ class User with ChangeNotifier {
   final String state;
   final String profileUrl;
   final int contact;
+  final String country;
 
   User({
     @required this.uid,
@@ -21,6 +22,7 @@ class User with ChangeNotifier {
     @required this.zipCode,
     @required this.profileUrl,
     @required this.contact,
+    @required this.country
   });
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -33,6 +35,7 @@ class User with ChangeNotifier {
       contact: json['contact'],
       profileUrl: json['profileUrl'],
       address: json['address'],
+      country: json['country'],
     );
   }
 }

@@ -103,6 +103,7 @@ class _AuthCardState extends State<AuthCard> {
     city: '',
     contact: 0,
     state: '',
+    country: '',
   );
 
   AuthMode _authMode = AuthMode.Login;
@@ -275,6 +276,7 @@ class _AuthCardState extends State<AuthCard> {
                       profileUrl: _editedUser.profileUrl,
                       zipCode: _editedUser.zipCode,
                       uid: _editedUser.uid,
+                      country: _editedUser.country,
                     );
                   },
                 ),
@@ -325,6 +327,7 @@ class _AuthCardState extends State<AuthCard> {
                                 profileUrl: _editedUser.profileUrl,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
+                                country: _editedUser.country
                               );
                             },
                           ),
@@ -353,6 +356,7 @@ class _AuthCardState extends State<AuthCard> {
                                 profileUrl: _editedUser.profileUrl,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
+                                country: _editedUser.country
                               );
                             },
                           ),
@@ -381,6 +385,7 @@ class _AuthCardState extends State<AuthCard> {
                                 profileUrl: _editedUser.profileUrl,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
+                                country: _editedUser.country,
                               );
                             },
                           ),
@@ -406,6 +411,36 @@ class _AuthCardState extends State<AuthCard> {
                                 address: _editedUser.address,
                                 email: _editedUser.email,
                                 city: value,
+                                profileUrl: _editedUser.profileUrl,
+                                zipCode: _editedUser.zipCode,
+                                uid: _editedUser.uid,
+                                country: _editedUser.country,
+                              );
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.pinkAccent[400],
+                                ),
+                                labelText: 'State'),
+                            keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please provide a value.';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _editedUser = User(
+                                userName: _editedUser.userName,
+                                contact: _editedUser.contact,
+                                state: _editedUser.state,
+                                country: value,
+                                address: _editedUser.address,
+                                email: _editedUser.email,
+                                city: _editedUser.city,
                                 profileUrl: _editedUser.profileUrl,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
@@ -455,6 +490,7 @@ class _AuthCardState extends State<AuthCard> {
                                 profileUrl: _editedUser.profileUrl,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
+                                country: _editedUser.country,
                               );
                             },
                           ),
@@ -483,6 +519,7 @@ class _AuthCardState extends State<AuthCard> {
                                 profileUrl: value,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
+                                country: _editedUser.country,
                               );
                             },
                           ),
