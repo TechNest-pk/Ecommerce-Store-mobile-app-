@@ -33,12 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           user = userData;
         });
-        print(user.email);
-        print(user.uid);
       }else{
         print('nothing found');
       }
       // print(userData.uid);
+      print(user.email);
+      print(user.uid);
        
     } catch (e) {
       print(e);

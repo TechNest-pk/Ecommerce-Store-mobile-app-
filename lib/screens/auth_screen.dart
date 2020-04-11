@@ -141,7 +141,8 @@ class _AuthCardState extends State<AuthCard> {
       _isLoading = true;
     });
     try {
-      await Provider.of<Users>(context, listen: false).addUser(_editedUser);
+      _futureUser = await Provider.of<Users>(context, listen: false).addUser(_editedUser);
+
       print(_editedUser.userName);
     } catch (error) {
       await showDialog(
@@ -226,6 +227,8 @@ class _AuthCardState extends State<AuthCard> {
       });
     }
   }
+
+  dynamic _futureUser;
 
   @override
   Widget build(BuildContext context) {

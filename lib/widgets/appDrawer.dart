@@ -36,7 +36,7 @@ class AppDrawer extends StatelessWidget {
             height: 200,
             child: UserAccountsDrawerHeader(
             //  decoration: BoxDecoration(image: DecorationImage(image: AssetImage("img/mazzad.png"))),
-              accountName: Text("Omar Hatem"),
+              accountName: Text(''),
               accountEmail: Text("omarh.ismail1@gmail.com"),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: NetworkImage(

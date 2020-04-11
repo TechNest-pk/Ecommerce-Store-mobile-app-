@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 
 class User with ChangeNotifier {
@@ -23,4 +22,17 @@ class User with ChangeNotifier {
     @required this.profileUrl,
     @required this.contact,
   });
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      uid: json['uid'],
+      userName: json['userName'],
+      email: json['email'],
+      city: json['city'],
+      state: json['state'],
+      zipCode: json['zipCode'],
+      contact: json['contact'],
+      profileUrl: json['profileUrl'],
+      address: json['address'],
+    );
+  }
 }
