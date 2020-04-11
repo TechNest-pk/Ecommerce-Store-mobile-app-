@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './providers/auth.dart';
+import './providers/users.dart';
 import './screens/products_overview.dart';
 import './screens/product_detail_screen.dart';
 import './screens/home_screen.dart';
@@ -17,6 +18,13 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(
           value: Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, Users>(
+          builder: (ctx, auth, previousUsers) => Users(
+                auth.token,
+                auth.userId,
+                previousUsers == null ? [] : previousUsers.items,
+              ),
         ),
       ],
       child: Consumer<Auth>(
