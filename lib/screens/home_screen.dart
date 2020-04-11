@@ -30,7 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
       FirebaseUser userData = await FirebaseAuth.instance.currentUser();
 
       if(userData != null){
-        user = userData;
+        setState(() {
+          user = userData;
+        });
         print(user.email);
         print(user.uid);
       }else{

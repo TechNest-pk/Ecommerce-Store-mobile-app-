@@ -140,20 +140,15 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = true;
     });
-    // if (_editedUser.id != null) {
-    //   await Provider.of<Users>(context, listen: false)
-    //       .updateProduct(_editedUser.id, _editedUser);
-    //   // print('Data of image' + _storedImage.path);
-    //   // uploadFile();
-    // } else {
     try {
       await Provider.of<Users>(context, listen: false).addUser(_editedUser);
+      print(_editedUser.userName);
     } catch (error) {
       await showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
           title: Text('An error occurred!'),
-          content: Text('Something went wrong.'),
+          content: Text(error.toString()),
           actions: <Widget>[
             FlatButton(
               child: Text('Okay'),
@@ -518,7 +513,6 @@ class _AuthCardState extends State<AuthCard> {
                         child: Text(
                             _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
                         onPressed: () async {
-                          print(_editedUser.userName);
                           await _submit();
                         },
                         shape: RoundedRectangleBorder(
