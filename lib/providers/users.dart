@@ -28,7 +28,7 @@ class Users with ChangeNotifier {
         'email': user.email,
         'address': user.address,
         'zipCode': user.zipCode,
-        'profileUrl': user.profileUrl,
+        // 'profileUrl': user.profileUrl,
         'uid': userId,
         'state': user.state,
         'city': user.city,

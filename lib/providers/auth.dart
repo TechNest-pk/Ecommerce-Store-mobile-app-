@@ -37,54 +37,18 @@ class Auth with ChangeNotifier {
     return _userId;
   }
 
-//   Future<User> addUser(User user) async {
-//   final http.Response response = await http.post(
-//     'https://ecomerce-store-b9498.firebaseio.com/users.json',
-//     headers: <String, String>{
-//       'Content-Type': 'application/json; charset=UTF-8',
-//     },
-//     body: jsonEncode(<String, String>{
-//       'name': user.userName,
-//         'email': user.email,
-//         'address': user.address,
-//         'zipCode': user.zipCode,
-//         'profileUrl': user.profileUrl,
-//         'uid': userId,
-//         'state': user.state,
-//         'city': user.city,
-//         'contact': user.contact.toString(),
-//     }),
-//   );
-//   final newUser = User(
-//           userName: user.userName,
-//           email: user.email,
-//           address: user.address,
-//           zipCode: user.zipCode,
-//           profileUrl: user.profileUrl,
-//           uid: userId,
-//           city: user.city,
-//           state: user.state,
-//           contact: user.contact,
-//           country: user.country);
-//         _items.add(newUser);
-
-//   if (response.statusCode == 201) {
-//     return User.fromJson(json.decode(response.body));
-//   } else {
-//     throw Exception('Failed to create user.');
-//   }
-// }
-
   Future<void> signup(String email, String password, User userInfo) async {
     final url =
         'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyC10oZccoBbOfGE7zuNK9UKgP_dUvyipnM';
     try {
       AuthResult result = (await FirebaseAuth.instance
-              .createUserWithEmailAndPassword(email: email, password: password))
-          as AuthResult;
+          .createUserWithEmailAndPassword(email: email, password: password));
 
+      // print('working');
+      //http://10.0.75.1:8081/user/user-register
+      //https://ecomerce-store-b9498.firebaseio.com/users.json
       final http.Response response = await http.post(
-        'https://ecomerce-store-b9498.firebaseio.com/users.json',
+        'http://10.0.75.1:8081/user/user-register',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -93,7 +57,7 @@ class Auth with ChangeNotifier {
           'email': userInfo.email,
           'address': userInfo.address,
           'zipCode': userInfo.zipCode,
-          'profileUrl': userInfo.profileUrl,
+          // 'profileUrl': userInfo.profileUrl,
           'uid': result.user.uid,
           'state': userInfo.state,
           'city': userInfo.city,
@@ -105,7 +69,7 @@ class Auth with ChangeNotifier {
           email: result.user.email,
           address: userInfo.address,
           zipCode: userInfo.zipCode,
-          profileUrl: userInfo.profileUrl,
+          // profileUrl: userInfo.profileUrl,
           uid: result.user.uid,
           city: userInfo.city,
           state: userInfo.state,
@@ -117,12 +81,11 @@ class Auth with ChangeNotifier {
       print(userInfo.userName);
       print(result.user.uid);
 
-      if (response.statusCode == 201) {
-        return User.fromJson(json.decode(response.body));
-      } else {
-        throw Exception('Failed to create user.');
+      try {
+        User.fromJson(json.decode(response.body));
+      } catch (error) {
+        throw Exception(error);
       }
-
       // final response = await http
       //     .post(
       //   url,

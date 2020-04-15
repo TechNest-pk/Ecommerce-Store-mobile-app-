@@ -8,7 +8,7 @@ class User with ChangeNotifier {
   final String zipCode;
   final String city;
   final String state;
-  final String profileUrl;
+  // final String profileUrl;
   final int contact;
   final String country;
 
@@ -20,7 +20,7 @@ class User with ChangeNotifier {
     @required this.state,
     @required this.city,
     @required this.zipCode,
-    @required this.profileUrl,
+    // @required this.profileUrl,
     @required this.contact,
     @required this.country
   });
@@ -33,7 +33,7 @@ class User with ChangeNotifier {
       state: json['state'],
       zipCode: json['zipCode'],
       contact: json['contact'],
-      profileUrl: json['profileUrl'],
+      // profileUrl: json['profileUrl'],
       address: json['address'],
       country: json['country'],
     );

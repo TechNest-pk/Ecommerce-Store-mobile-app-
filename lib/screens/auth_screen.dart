@@ -121,7 +121,7 @@ class _AuthCardState extends State<AuthCard> {
     email: '',
     zipCode: '',
     address: '',
-    profileUrl: '',
+    // profileUrl: '',
     city: '',
     contact: 0,
     state: '',
@@ -154,46 +154,46 @@ class _AuthCardState extends State<AuthCard> {
     );
   }
 
-  dynamic _futureUser;
+  // dynamic _futureUser;
 
-  Future<void> _saveForm() async {
-    final isValid = _form.currentState.validate();
-    if (!isValid) {
-      return;
-    }
-    _form.currentState.save();
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      _futureUser =
-          await Provider.of<Users>(context, listen: false).addUser(_editedUser);
+  // Future<void> _saveForm() async {
+  //   final isValid = _form.currentState.validate();
+  //   if (!isValid) {
+  //     return;
+  //   }
+  //   _form.currentState.save();
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //   try {
+  //     _futureUser =
+  //         await Provider.of<Users>(context, listen: false).addUser(_editedUser);
 
-      print(_editedUser.userName);
-      print(_editedUser.uid);
-    } catch (error) {
-      await showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text('An error occurred!'),
-          content: Text(error.toString()),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Okay'),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-            )
-          ],
-        ),
-      );
-    }
-    setState(() {
-      _isLoading = false;
-    });
-    Navigator.of(context).pop();
-    // Navigator.of(context).pop();
-  }
+  //     print(_editedUser.userName);
+  //     print(_editedUser.uid);
+  //   } catch (error) {
+  //     await showDialog(
+  //       context: context,
+  //       builder: (ctx) => AlertDialog(
+  //         title: Text('An error occurred!'),
+  //         content: Text(error.toString()),
+  //         actions: <Widget>[
+  //           FlatButton(
+  //             child: Text('Okay'),
+  //             onPressed: () {
+  //               Navigator.of(ctx).pop();
+  //             },
+  //           )
+  //         ],
+  //       ),
+  //     );
+  //   }
+  //   setState(() {
+  //     _isLoading = false;
+  //   });
+  //   Navigator.of(context).pop();
+  //   // Navigator.of(context).pop();
+  // }
 
   Future<void> _submit() async {
     if (!_form.currentState.validate()) {
@@ -211,10 +211,21 @@ class _AuthCardState extends State<AuthCard> {
           _authData['email'],
           _authData['password'],
         );
+
+        setState(() {
+          _isLoading = false;
+        });
       } else {
         // Sign user up
+
         await Provider.of<Auth>(context, listen: false)
             .signup(_authData['email'], _authData['password'], _editedUser);
+
+        setState(() {
+          _isLoading = false;
+        });
+
+        _authMode = AuthMode.Login;
 
         // await _saveForm();
       }
@@ -235,10 +246,6 @@ class _AuthCardState extends State<AuthCard> {
     } catch (error) {
       _showErrorDialog(error.toString());
     }
-
-    // setState(() {
-    //   _isLoading = false;
-    // });
   }
 
   void _switchAuthMode() {
@@ -295,7 +302,7 @@ class _AuthCardState extends State<AuthCard> {
                       address: _editedUser.address,
                       email: value,
                       city: _editedUser.city,
-                      profileUrl: _editedUser.profileUrl,
+                      // profileUrl: _editedUser.profileUrl,
                       zipCode: _editedUser.zipCode,
                       uid: _editedUser.uid,
                       country: _editedUser.country,
@@ -346,7 +353,7 @@ class _AuthCardState extends State<AuthCard> {
                                   address: _editedUser.address,
                                   email: _editedUser.email,
                                   city: _editedUser.city,
-                                  profileUrl: _editedUser.profileUrl,
+                                  // profileUrl: _editedUser.profileUrl,
                                   zipCode: _editedUser.zipCode,
                                   uid: _editedUser.uid,
                                   country: _editedUser.country);
@@ -374,7 +381,7 @@ class _AuthCardState extends State<AuthCard> {
                                   address: _editedUser.address,
                                   email: _editedUser.email,
                                   city: _editedUser.city,
-                                  profileUrl: _editedUser.profileUrl,
+                                  // profileUrl: _editedUser.profileUrl,
                                   zipCode: _editedUser.zipCode,
                                   uid: _editedUser.uid,
                                   country: _editedUser.country);
@@ -402,7 +409,7 @@ class _AuthCardState extends State<AuthCard> {
                                 address: _editedUser.address,
                                 email: _editedUser.email,
                                 city: _editedUser.city,
-                                profileUrl: _editedUser.profileUrl,
+                                // profileUrl: _editedUser.profileUrl,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
                                 country: _editedUser.country,
@@ -431,7 +438,7 @@ class _AuthCardState extends State<AuthCard> {
                                 address: _editedUser.address,
                                 email: _editedUser.email,
                                 city: value,
-                                profileUrl: _editedUser.profileUrl,
+                                // profileUrl: _editedUser.profileUrl,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
                                 country: _editedUser.country,
@@ -461,7 +468,7 @@ class _AuthCardState extends State<AuthCard> {
                                 address: _editedUser.address,
                                 email: _editedUser.email,
                                 city: _editedUser.city,
-                                profileUrl: _editedUser.profileUrl,
+                                // profileUrl: _editedUser.profileUrl,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
                               );
@@ -490,7 +497,7 @@ class _AuthCardState extends State<AuthCard> {
                                 address: _editedUser.address,
                                 email: _editedUser.email,
                                 city: _editedUser.city,
-                                profileUrl: _editedUser.profileUrl,
+                                // profileUrl: _editedUser.profileUrl,
                                 zipCode: value,
                                 uid: _editedUser.uid,
                               );
@@ -518,7 +525,7 @@ class _AuthCardState extends State<AuthCard> {
                                 address: value,
                                 email: _editedUser.email,
                                 city: _editedUser.city,
-                                profileUrl: _editedUser.profileUrl,
+                                // profileUrl: _editedUser.profileUrl,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
                                 country: _editedUser.country,
@@ -547,7 +554,7 @@ class _AuthCardState extends State<AuthCard> {
                                 address: _editedUser.address,
                                 email: _editedUser.email,
                                 city: _editedUser.city,
-                                profileUrl: value,
+                                // profileUrl: value,
                                 zipCode: _editedUser.zipCode,
                                 uid: _editedUser.uid,
                                 country: _editedUser.country,

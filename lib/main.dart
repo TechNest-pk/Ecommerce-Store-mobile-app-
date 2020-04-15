@@ -19,13 +19,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Auth(),
         ),
-        ChangeNotifierProxyProvider<Auth, Users>(
-          builder: (ctx, auth, previousUsers) => Users(
-                auth.token,
-                auth.userId,
-                previousUsers == null ? [] : previousUsers.items,
-              ),
-        ),
+        // ChangeNotifierProxyProvider<Auth, Users>(
+        //   builder: (ctx, auth, previousUsers) => Users(
+        //         auth.token,
+        //         auth.userId,
+        //         previousUsers == null ? [] : previousUsers.items,
+        //       ),
+        // ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
