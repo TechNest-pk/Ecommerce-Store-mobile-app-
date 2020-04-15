@@ -1,6 +1,7 @@
 import 'package:ecommerce_store/providers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/http_exception.dart';
 import '../providers/auth.dart';
@@ -91,6 +92,27 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard> {
   // final GlobalKey<FormState> _formKey = GlobalKey();
 
+  Future<FirebaseUser> user;
+
+  @override
+  void initState(){
+    super.initState();
+
+    try {
+      Future<FirebaseUser> userData = FirebaseAuth.instance.currentUser();
+
+      if(userData != null){
+        setState(() {
+          user = userData;
+        });
+      }else{
+        print('nothing found');
+      }  
+    } catch (e) {
+      print(e);
+    }
+  }
+
   final _form = GlobalKey<FormState>();
 
   var _editedUser = User(
@@ -142,9 +164,10 @@ class _AuthCardState extends State<AuthCard> {
       _isLoading = true;
     });
     try {
-      _futureUser = await Provider.of<Users>(context, listen: false).addUser(_editedUser);
+      _futureUser = await Provider.of<Auth>(context, listen: false).addUser(_editedUser);
 
       print(_editedUser.userName);
+      print(_editedUser.uid);
     } catch (error) {
       await showDialog(
         context: context,
@@ -191,7 +214,8 @@ class _AuthCardState extends State<AuthCard> {
           _authData['email'],
           _authData['password'],
         );
-
+        print(_editedUser.userName);
+        print(_editedUser.uid);
         await _saveForm();
       }
     } on HttpException catch (error) {
@@ -424,7 +448,7 @@ class _AuthCardState extends State<AuthCard> {
                                   Icons.person,
                                   color: Colors.pinkAccent[400],
                                 ),
-                                labelText: 'State'),
+                                labelText: 'Country'),
                             keyboardType: TextInputType.text,
                             validator: (value) {
                               if (value.isEmpty) {

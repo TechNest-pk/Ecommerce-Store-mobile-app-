@@ -17,31 +17,31 @@ class Users with ChangeNotifier {
     return [..._items];
   }
 
-  Future<User> addUser(User user) async {
-  final http.Response response = await http.post(
-    'http://10.0.75.1:8081/user/user-register',
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'name': user.userName,
-        'email': user.email,
-        'address': user.address,
-        'zipCode': user.zipCode,
-        'profileUrl': user.profileUrl,
-        'uid': user.uid,
-        'state': user.state,
-        'city': user.city,
-        'contact': user.contact.toString(),
-    }),
-  );
+//   Future<User> addUser(User user) async {
+//   final http.Response response = await http.post(
+//     'http://10.0.75.1:8081/user/user-register',
+//     headers: <String, String>{
+//       'Content-Type': 'application/json; charset=UTF-8',
+//     },
+//     body: jsonEncode(<String, String>{
+//       'name': user.userName,
+//         'email': user.email,
+//         'address': user.address,
+//         'zipCode': user.zipCode,
+//         'profileUrl': user.profileUrl,
+//         'uid': userId,
+//         'state': user.state,
+//         'city': user.city,
+//         'contact': user.contact.toString(),
+//     }),
+//   );
 
-  if (response.statusCode == 201) {
-    return User.fromJson(json.decode(response.body));
-  } else {
-    throw Exception('Failed to create user.');
-  }
-}
+//   if (response.statusCode == 201) {
+//     return User.fromJson(json.decode(response.body));
+//   } else {
+//     throw Exception('Failed to create user.');
+//   }
+// }
 
 //http://10.0.75.1:8081/user/user-register
 
