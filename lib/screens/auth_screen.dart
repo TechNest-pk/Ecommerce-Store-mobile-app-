@@ -92,26 +92,26 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard> {
   // final GlobalKey<FormState> _formKey = GlobalKey();
 
-  Future<FirebaseUser> user;
+  // Future<FirebaseUser> user;
 
-  @override
-  void initState(){
-    super.initState();
+  // @override
+  // void initState(){
+  //   super.initState();
 
-    try {
-      Future<FirebaseUser> userData = FirebaseAuth.instance.currentUser();
+  //   try {
+  //     Future<FirebaseUser> userData = FirebaseAuth.instance.currentUser();
 
-      if(userData != null){
-        setState(() {
-          user = userData;
-        });
-      }else{
-        print('nothing found');
-      }  
-    } catch (e) {
-      print(e);
-    }
-  }
+  //     if(userData != null){
+  //       setState(() {
+  //         user = userData;
+  //       });
+  //     }else{
+  //       print('nothing found');
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   final _form = GlobalKey<FormState>();
 
@@ -154,6 +154,8 @@ class _AuthCardState extends State<AuthCard> {
     );
   }
 
+  dynamic _futureUser;
+
   Future<void> _saveForm() async {
     final isValid = _form.currentState.validate();
     if (!isValid) {
@@ -164,7 +166,8 @@ class _AuthCardState extends State<AuthCard> {
       _isLoading = true;
     });
     try {
-      _futureUser = await Provider.of<Auth>(context, listen: false).addUser(_editedUser);
+      _futureUser =
+          await Provider.of<Users>(context, listen: false).addUser(_editedUser);
 
       print(_editedUser.userName);
       print(_editedUser.uid);
@@ -210,13 +213,10 @@ class _AuthCardState extends State<AuthCard> {
         );
       } else {
         // Sign user up
-        await Provider.of<Auth>(context, listen: false).signup(
-          _authData['email'],
-          _authData['password'],
-        );
-        print(_editedUser.userName);
-        print(_editedUser.uid);
-        await _saveForm();
+        await Provider.of<Auth>(context, listen: false)
+            .signup(_authData['email'], _authData['password'], _editedUser);
+
+        // await _saveForm();
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
@@ -252,8 +252,6 @@ class _AuthCardState extends State<AuthCard> {
       });
     }
   }
-
-  dynamic _futureUser;
 
   @override
   Widget build(BuildContext context) {
@@ -342,17 +340,16 @@ class _AuthCardState extends State<AuthCard> {
                             },
                             onSaved: (value) {
                               _editedUser = User(
-                                userName: value,
-                                contact: _editedUser.contact,
-                                state: _editedUser.state,
-                                address: _editedUser.address,
-                                email: _editedUser.email,
-                                city: _editedUser.city,
-                                profileUrl: _editedUser.profileUrl,
-                                zipCode: _editedUser.zipCode,
-                                uid: _editedUser.uid,
-                                country: _editedUser.country
-                              );
+                                  userName: value,
+                                  contact: _editedUser.contact,
+                                  state: _editedUser.state,
+                                  address: _editedUser.address,
+                                  email: _editedUser.email,
+                                  city: _editedUser.city,
+                                  profileUrl: _editedUser.profileUrl,
+                                  zipCode: _editedUser.zipCode,
+                                  uid: _editedUser.uid,
+                                  country: _editedUser.country);
                             },
                           ),
                           TextFormField(
@@ -371,17 +368,16 @@ class _AuthCardState extends State<AuthCard> {
                             },
                             onSaved: (value) {
                               _editedUser = User(
-                                userName: _editedUser.userName,
-                                contact: int.parse(value),
-                                state: _editedUser.state,
-                                address: _editedUser.address,
-                                email: _editedUser.email,
-                                city: _editedUser.city,
-                                profileUrl: _editedUser.profileUrl,
-                                zipCode: _editedUser.zipCode,
-                                uid: _editedUser.uid,
-                                country: _editedUser.country
-                              );
+                                  userName: _editedUser.userName,
+                                  contact: int.parse(value),
+                                  state: _editedUser.state,
+                                  address: _editedUser.address,
+                                  email: _editedUser.email,
+                                  city: _editedUser.city,
+                                  profileUrl: _editedUser.profileUrl,
+                                  zipCode: _editedUser.zipCode,
+                                  uid: _editedUser.uid,
+                                  country: _editedUser.country);
                             },
                           ),
                           TextFormField(
@@ -486,7 +482,18 @@ class _AuthCardState extends State<AuthCard> {
                               return null;
                             },
                             onSaved: (value) {
-                              _authData['zipCode'] = value;
+                              _editedUser = User(
+                                userName: _editedUser.userName,
+                                contact: _editedUser.contact,
+                                state: _editedUser.state,
+                                country: _editedUser.country,
+                                address: _editedUser.address,
+                                email: _editedUser.email,
+                                city: _editedUser.city,
+                                profileUrl: _editedUser.profileUrl,
+                                zipCode: value,
+                                uid: _editedUser.uid,
+                              );
                             },
                           ),
                           TextFormField(
