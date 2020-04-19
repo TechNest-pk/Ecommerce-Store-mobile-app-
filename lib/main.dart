@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, _) => MaterialApp(
           title: 'E-commerce Store',
           theme: ThemeData(
-            primaryColor: Color(0xFFEC407A),
-            accentColor: Colors.grey[350],
+            primaryColor: Color(0xFF087059),
+            accentColor: Color(0xFF4B5652),
           ),
           home: auth.isAuth
                   ? HomeScreen()

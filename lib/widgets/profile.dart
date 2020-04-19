@@ -4,7 +4,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFEC407A),
+        backgroundColor: Theme.of(context).primaryColor,
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -27,7 +27,7 @@ class Profile extends StatelessWidget {
                   fontFamily: 'Source Sans Pro',
                   fontWeight: FontWeight.bold,
                   letterSpacing: 2.5,
-                  color: Colors.pink[100],
+                  color: Theme.of(context).primaryColor,
                   fontSize: 20.0,
                 ),
               ),
@@ -35,7 +35,7 @@ class Profile extends StatelessWidget {
                 height: 20.0,
                 width: 200,
                 child: Divider(
-                  color: Colors.pink[100],
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
               Card(
@@ -45,11 +45,11 @@ class Profile extends StatelessWidget {
                 child: ListTile(
                   leading: Icon(
                       Icons.phone,
-                      color: Colors.pinkAccent[400],
+                      color: Theme.of(context).primaryColor,
                     ),
                   title: Text('+92 3342219404',
                     style: TextStyle(
-                      color: Colors.pinkAccent[400],
+                      color: Theme.of(context).primaryColor,
                       fontSize: 17,
                     ),
                     ),
@@ -62,11 +62,11 @@ class Profile extends StatelessWidget {
                 child: ListTile(
                   leading: Icon(
                       Icons.email,
-                      color: Colors.pinkAccent[400],
+                      color: Theme.of(context).primaryColor,
                     ),
                   title: Text('omarh.ismail1@gmail.com',
                     style: TextStyle(
-                      color: Colors.pinkAccent[400],
+                      color: Theme.of(context).primaryColor,
                       fontSize: 17,
                     ),
                     ),  

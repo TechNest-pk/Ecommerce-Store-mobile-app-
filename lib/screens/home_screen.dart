@@ -97,8 +97,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.pink,
-        unselectedIconTheme: IconThemeData(color: Colors.grey),
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedIconTheme: IconThemeData(color: Theme.of(context).accentColor),
         onTap: _onItemTapped,
       ),
     );

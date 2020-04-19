@@ -25,8 +25,8 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(236, 64, 122, 1).withOpacity(0.5),
-                  Color.fromRGBO(169, 169, 169, 1).withOpacity(0.9),
+                  Color.fromRGBO(8, 112, 89, 1).withOpacity(0.5),
+                  Color.fromRGBO(75, 86, 82, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -283,7 +283,7 @@ class _AuthCardState extends State<AuthCard> {
                   decoration: InputDecoration(
                       icon: Icon(
                         Icons.email,
-                        color: Colors.pinkAccent[400],
+                        color: Theme.of(context).primaryColor,
                       ),
                       labelText: 'E-Mail'),
                   keyboardType: TextInputType.emailAddress,
@@ -313,7 +313,7 @@ class _AuthCardState extends State<AuthCard> {
                   decoration: InputDecoration(
                       icon: Icon(
                         Icons.lock,
-                        color: Colors.pinkAccent[400],
+                        color: Theme.of(context).primaryColor,
                       ),
                       labelText: 'Password'),
                   obscureText: true,
@@ -335,7 +335,7 @@ class _AuthCardState extends State<AuthCard> {
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
-                                  color: Colors.pinkAccent[400],
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 labelText: 'Name'),
                             keyboardType: TextInputType.text,
@@ -363,7 +363,7 @@ class _AuthCardState extends State<AuthCard> {
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
-                                  color: Colors.pinkAccent[400],
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 labelText: 'Contact'),
                             keyboardType: TextInputType.text,
@@ -391,7 +391,7 @@ class _AuthCardState extends State<AuthCard> {
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
-                                  color: Colors.pinkAccent[400],
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 labelText: 'State'),
                             keyboardType: TextInputType.text,
@@ -420,7 +420,7 @@ class _AuthCardState extends State<AuthCard> {
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
-                                  color: Colors.pinkAccent[400],
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 labelText: 'City'),
                             keyboardType: TextInputType.text,
@@ -449,7 +449,7 @@ class _AuthCardState extends State<AuthCard> {
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
-                                  color: Colors.pinkAccent[400],
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 labelText: 'Country'),
                             keyboardType: TextInputType.text,
@@ -478,7 +478,7 @@ class _AuthCardState extends State<AuthCard> {
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
-                                  color: Colors.pinkAccent[400],
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 labelText: 'ZipCode'),
                             keyboardType: TextInputType.text,
@@ -507,7 +507,7 @@ class _AuthCardState extends State<AuthCard> {
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person,
-                                  color: Colors.pinkAccent[400],
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 labelText: 'Address'),
                             keyboardType: TextInputType.text,
@@ -532,41 +532,41 @@ class _AuthCardState extends State<AuthCard> {
                               );
                             },
                           ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.person,
-                                  color: Colors.pinkAccent[400],
-                                ),
-                                labelText: 'Profile Url'),
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please provide a value.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _editedUser = User(
-                                userName: _editedUser.userName,
-                                contact: _editedUser.contact,
-                                state: _editedUser.state,
-                                address: _editedUser.address,
-                                email: _editedUser.email,
-                                city: _editedUser.city,
-                                // profileUrl: value,
-                                zipCode: _editedUser.zipCode,
-                                uid: _editedUser.uid,
-                                country: _editedUser.country,
-                              );
-                            },
-                          ),
+                          // TextFormField(
+                          //   decoration: InputDecoration(
+                          //       icon: Icon(
+                          //         Icons.person,
+                          //         color: Colors.pinkAccent[400],
+                          //       ),
+                          //       labelText: 'Profile Url'),
+                          //   keyboardType: TextInputType.text,
+                          //   validator: (value) {
+                          //     if (value.isEmpty) {
+                          //       return 'Please provide a value.';
+                          //     }
+                          //     return null;
+                          //   },
+                          //   onSaved: (value) {
+                          //     _editedUser = User(
+                          //       userName: _editedUser.userName,
+                          //       contact: _editedUser.contact,
+                          //       state: _editedUser.state,
+                          //       address: _editedUser.address,
+                          //       email: _editedUser.email,
+                          //       city: _editedUser.city,
+                          //       // profileUrl: value,
+                          //       zipCode: _editedUser.zipCode,
+                          //       uid: _editedUser.uid,
+                          //       country: _editedUser.country,
+                          //     );
+                          //   },
+                          // ),
                           TextFormField(
                             enabled: _authMode == AuthMode.Signup,
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.lock,
-                                  color: Colors.pinkAccent[400],
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 labelText: 'Confirm Password'),
                             obscureText: true,

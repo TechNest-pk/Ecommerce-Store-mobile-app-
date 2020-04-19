@@ -1,7 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
+  @override
+  _AppDrawerState createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
+
+  FirebaseUser user;
+
+  @override
+  void initState(){
+    super.initState();
+    _getUserData();
+  }
+
+  Future<void> _getUserData() async {
+    try {
+      FirebaseUser userData = await FirebaseAuth.instance.currentUser();
+
+      if(userData != null){
+        setState(() {
+          user = userData;
+        });
+      }else{
+        print('nothing found');
+      }
+      // print(user.email);
+      // print(user.uid);
+       
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Widget buildSeparators(String name) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -37,7 +71,7 @@ class AppDrawer extends StatelessWidget {
             child: UserAccountsDrawerHeader(
             //  decoration: BoxDecoration(image: DecorationImage(image: AssetImage("img/mazzad.png"))),
               accountName: Text(''),
-              accountEmail: Text("omarh.ismail1@gmail.com"),
+              accountEmail: Text(user.email),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: NetworkImage(
                     "https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic59.jpg"),

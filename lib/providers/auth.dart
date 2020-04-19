@@ -47,12 +47,14 @@ class Auth with ChangeNotifier {
       // print('working');
       //http://10.0.75.1:8081/user/user-register
       //https://ecomerce-store-b9498.firebaseio.com/users.json
-      final http.Response response = await http.post(
+      print("User ID : " + result.user.uid);
+       try{
+         final http.Response response = await http.post(
         'http://10.0.75.1:8081/user/user-register',
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
+          'Content-Type': 'application/json',
         },
-        body: jsonEncode(<String, String>{
+        body: json.encode(<String, String>{
           'name': userInfo.userName,
           'email': userInfo.email,
           'address': userInfo.address,
@@ -81,10 +83,10 @@ class Auth with ChangeNotifier {
       print(userInfo.userName);
       print(result.user.uid);
 
-      try {
-        User.fromJson(json.decode(response.body));
-      } catch (error) {
-        throw Exception(error);
+      if (response.statusCode == 201) {
+        return User.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('failed to create user');
       }
       // final response = await http
       //     .post(
@@ -121,6 +123,9 @@ class Auth with ChangeNotifier {
       //   },
       // );
       // prefs.setString('userData', userData);
+       }catch(error){
+         Exception(error.toString());
+       }
     } catch (error) {
       throw error;
     }
