@@ -38,8 +38,8 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> signup(String email, String password, User userInfo) async {
-    final url =
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyC10oZccoBbOfGE7zuNK9UKgP_dUvyipnM';
+    // final url =
+    //     'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyC10oZccoBbOfGE7zuNK9UKgP_dUvyipnM';
     try {
       AuthResult result = (await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password));
@@ -55,7 +55,7 @@ class Auth with ChangeNotifier {
           'Content-Type': 'application/json',
         },
         body: json.encode(<String, String>{
-          'name': userInfo.userName,
+          'userName': userInfo.userName,
           'email': userInfo.email,
           'address': userInfo.address,
           'zipCode': userInfo.zipCode,

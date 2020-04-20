@@ -41,6 +41,7 @@ class _CategoriesCircleState extends State<CategoriesCircle> {
                     .pushNamed(CategoriesOverviewScreen.routeName);
               },
               child: CircleAvatar(
+                backgroundColor: Theme.of(context).accentColor,
                 backgroundImage: NetworkImage(imgList[index]),
               ),
               // Image.network(

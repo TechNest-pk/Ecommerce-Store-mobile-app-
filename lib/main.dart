@@ -1,13 +1,12 @@
+import 'package:ecommerce_store/screens/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './providers/auth.dart';
-import './providers/users.dart';
 import './screens/products_overview.dart';
 import './screens/product_detail_screen.dart';
 import './screens/home_screen.dart';
 import './screens/categories_overview_screen.dart';
-import './screens/auth_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,13 +18,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Auth(),
         ),
-        // ChangeNotifierProxyProvider<Auth, Users>(
-        //   builder: (ctx, auth, previousUsers) => Users(
-        //         auth.token,
-        //         auth.userId,
-        //         previousUsers == null ? [] : previousUsers.items,
-        //       ),
-        // ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
@@ -34,11 +26,13 @@ class MyApp extends StatelessWidget {
             primaryColor: Color(0xFF087059),
             accentColor: Color(0xFF4B5652),
           ),
-          home: auth.isAuth
-                  ? HomeScreen()
-                  : AuthScreen(),
+          home: HomeScreen(),
+          // auth.isAuth
+          //         ? HomeScreen()
+          //         : AuthScreen(),
           routes: {
             HomeScreen.routeName: (ctx) => HomeScreen(),
+            AuthScreen.routeName: (ctx) =>AuthScreen(),
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
             CategoriesOverviewScreen.routeName: (ctx) =>

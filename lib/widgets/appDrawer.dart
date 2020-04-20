@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../screens/home_screen.dart';
+import 'package:ecommerce_store/screens/auth_screen.dart';
+
 class AppDrawer extends StatefulWidget {
   @override
   _AppDrawerState createState() => _AppDrawerState();
@@ -59,7 +62,7 @@ class _AppDrawerState extends State<AppDrawer> {
       leading: Icon(icon),
       title: Text(name),
       onTap: () {
-        Navigator.of(context).pushReplacementNamed(nevigation);
+        Navigator.of(context).pushNamed(nevigation);
       },
     );
   }
@@ -70,8 +73,8 @@ class _AppDrawerState extends State<AppDrawer> {
             height: 200,
             child: UserAccountsDrawerHeader(
             //  decoration: BoxDecoration(image: DecorationImage(image: AssetImage("img/mazzad.png"))),
-              accountName: Text(''),
-              accountEmail: Text(user.email),
+              accountName: Text('Batool Ali'),
+              accountEmail: Text('scorpion.batool@gmail.com'),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: NetworkImage(
                     "https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic59.jpg"),
@@ -91,55 +94,55 @@ class _AppDrawerState extends State<AppDrawer> {
               buildTile(
                 "Login",
                 FontAwesomeIcons.lock,
-                '/',
+                AuthScreen.routeName,
               ),
               buildTile(
                 "SignUp",
                 FontAwesomeIcons.user,
-                '/',
+                AuthScreen.routeName,
               ),
               Divider(),
               buildSeparators("Categories"),
               buildTile(
                 "Mens Fashion",
                 FontAwesomeIcons.male,
-                '/',
+                HomeScreen.routeName,
               ),
               buildTile(
                 "Womens Fashion",
                 FontAwesomeIcons.female,
-                '/',
+                HomeScreen.routeName,
               ),
               buildTile(
                 "Kids",
                 FontAwesomeIcons.baby,
-                '/',
+                HomeScreen.routeName,
               ),
               buildTile(
                 "Electronics",
                 FontAwesomeIcons.plug,
-                '/'
+                HomeScreen.routeName,
               ),
               buildTile(
                 "Computer",
                 FontAwesomeIcons.laptop,
-                '/',
+                HomeScreen.routeName,
               ),
                buildSeparators("Help Center"),
                   buildTile(
                     "Feedback",
                     Icons.message,
-                    "/",
+                HomeScreen.routeName,
                   ),
                   buildTile(
                     "About payment",
                     Icons.payment,
-                    '/',
+                HomeScreen.routeName,
                   ),
                   buildTile(
                     "About Shipping",
                     FontAwesomeIcons.truck,
-                    '/',
+                HomeScreen.routeName,
                   ),
         ],
       ),

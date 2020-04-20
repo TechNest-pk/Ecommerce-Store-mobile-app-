@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/Categories_circle.dart';
 import '../widgets/newArrival.dart';
@@ -17,33 +17,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  FirebaseUser user;
+  // FirebaseUser user;
 
-  @override
-  void initState(){
-    super.initState();
-    _getUserData();
-  }
+  // @override
+  // void initState(){
+  //   super.initState();
+  //   _getUserData();
+  // }
 
-  Future<void> _getUserData() async {
-    try {
-      FirebaseUser userData = await FirebaseAuth.instance.currentUser();
+  // Future<void> _getUserData() async {
+  //   try {
+  //     FirebaseUser userData = await FirebaseAuth.instance.currentUser();
 
-      if(userData != null){
-        setState(() {
-          user = userData;
-        });
-      }else{
-        print('nothing found');
-      }
-      // print(userData.uid);
-      print(user.email);
-      print(user.uid);
+  //     if(userData != null){
+  //       setState(() {
+  //         user = userData;
+  //       });
+  //     }else{
+  //       print('nothing found');
+  //     }
+  //     // print(userData.uid);
+  //     print(user.email);
+  //     print(user.uid);
        
-    } catch (e) {
-      print(e);
-    }
-  }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   int _selectedIndex = 0;
 
@@ -113,9 +113,16 @@ class Home extends StatelessWidget {
         Container(
           height: 220,
           decoration: BoxDecoration(
+            boxShadow: [
+            BoxShadow(
+                color: Theme.of(context).accentColor,
+                blurRadius: 2.0,
+                spreadRadius: 0.0,
+                offset: Offset(2.0, 3.0), // shadow direction: bottom right
+            )
+        ],
             image: DecorationImage(
-              image: NetworkImage(
-                  'https://datsgreathome.files.wordpress.com/2019/11/women-fashion.jpg?w=770'),
+              image: AssetImage('images/E-commerce.jpg'),
               fit: BoxFit.cover,
             ),
             // borderRadius: BorderRadius.circular(8.0),
@@ -141,6 +148,7 @@ class Home extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
+                color: Theme.of(context).accentColor,
               ),
             ),
             GestureDetector(
@@ -164,6 +172,7 @@ class Home extends StatelessWidget {
               'Popular Items',
               textAlign: TextAlign.start,
               style: TextStyle(
+                color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),

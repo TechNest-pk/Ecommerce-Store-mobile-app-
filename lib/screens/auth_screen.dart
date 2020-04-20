@@ -1,11 +1,10 @@
 import 'package:ecommerce_store/providers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/http_exception.dart';
 import '../providers/auth.dart';
-import '../providers/users.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -25,8 +24,10 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(8, 112, 89, 1).withOpacity(0.5),
-                  Color.fromRGBO(75, 86, 82, 1).withOpacity(0.9),
+                  //0, 51, 0
+                  //211, 211, 211
+                  Color.fromRGBO(75, 86, 82, 1),
+                  Color.fromRGBO(8, 112, 89, 1),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -269,268 +270,312 @@ class _AuthCardState extends State<AuthCard> {
       ),
       elevation: 8.0,
       child: Container(
-        height: _authMode == AuthMode.Signup ? 400 : 260,
+        height: _authMode == AuthMode.Signup
+            ? MediaQuery.of(context).size.height * 0.85
+            : 280,
         constraints:
             BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 400 : 260),
-        width: deviceSize.width * 0.75,
+        width: deviceSize.width * 0.85,
         padding: EdgeInsets.all(16.0),
         child: Form(
           key: _form,
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  decoration: InputDecoration(
-                      icon: Icon(
-                        Icons.email,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      labelText: 'E-Mail'),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value.isEmpty || !value.contains('@')) {
-                      return 'Invalid email!';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _authData['email'] = value;
-                    _editedUser = User(
-                      userName: _editedUser.userName,
-                      contact: _editedUser.contact,
-                      state: _editedUser.state,
-                      address: _editedUser.address,
-                      email: value,
-                      city: _editedUser.city,
-                      // profileUrl: _editedUser.profileUrl,
-                      zipCode: _editedUser.zipCode,
-                      uid: _editedUser.uid,
-                      country: _editedUser.country,
-                    );
-                  },
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                      icon: Icon(
-                        Icons.lock,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      labelText: 'Password'),
-                  obscureText: true,
-                  controller: _passwordController,
-                  validator: (value) {
-                    if (value.isEmpty || value.length < 5) {
-                      return 'Password is too short!';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _authData['password'] = value;
-                  },
-                ),
                 _authMode == AuthMode.Signup
                     ? Column(
                         children: <Widget>[
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: Icon(
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 5.0),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                prefixIcon: Icon(
                                   Icons.person,
                                   color: Theme.of(context).primaryColor,
                                 ),
-                                labelText: 'Name'),
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please provide a value.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _editedUser = User(
-                                  userName: value,
+                                labelText: 'Name',
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ),
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please provide a value.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _editedUser = User(
+                                    userName: value,
+                                    contact: _editedUser.contact,
+                                    state: _editedUser.state,
+                                    address: _editedUser.address,
+                                    email: _editedUser.email,
+                                    city: _editedUser.city,
+                                    // profileUrl: _editedUser.profileUrl,
+                                    zipCode: _editedUser.zipCode,
+                                    uid: _editedUser.uid,
+                                    country: _editedUser.country);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 5.0),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.phone,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                labelText: 'Contact',
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ),
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please provide a value.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _editedUser = User(
+                                    userName: _editedUser.userName,
+                                    contact: int.parse(value),
+                                    state: _editedUser.state,
+                                    address: _editedUser.address,
+                                    email: _editedUser.email,
+                                    city: _editedUser.city,
+                                    // profileUrl: _editedUser.profileUrl,
+                                    zipCode: _editedUser.zipCode,
+                                    uid: _editedUser.uid,
+                                    country: _editedUser.country);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 5.0),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.location_on,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                labelText: 'State',
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ),
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please provide a value.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _editedUser = User(
+                                  userName: _editedUser.userName,
+                                  contact: _editedUser.contact,
+                                  state: value,
+                                  address: _editedUser.address,
+                                  email: _editedUser.email,
+                                  city: _editedUser.city,
+                                  // profileUrl: _editedUser.profileUrl,
+                                  zipCode: _editedUser.zipCode,
+                                  uid: _editedUser.uid,
+                                  country: _editedUser.country,
+                                );
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 5.0),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.location_city,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                labelText: 'City',
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ),
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please provide a value.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _editedUser = User(
+                                  userName: _editedUser.userName,
                                   contact: _editedUser.contact,
                                   state: _editedUser.state,
                                   address: _editedUser.address,
                                   email: _editedUser.email,
-                                  city: _editedUser.city,
+                                  city: value,
                                   // profileUrl: _editedUser.profileUrl,
                                   zipCode: _editedUser.zipCode,
                                   uid: _editedUser.uid,
-                                  country: _editedUser.country);
-                            },
+                                  country: _editedUser.country,
+                                );
+                              },
+                            ),
                           ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.person,
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 5.0),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.location_on,
                                   color: Theme.of(context).primaryColor,
                                 ),
-                                labelText: 'Contact'),
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please provide a value.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _editedUser = User(
+                                labelText: 'Country',
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ),
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please provide a value.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _editedUser = User(
                                   userName: _editedUser.userName,
-                                  contact: int.parse(value),
+                                  contact: _editedUser.contact,
                                   state: _editedUser.state,
+                                  country: value,
                                   address: _editedUser.address,
                                   email: _editedUser.email,
                                   city: _editedUser.city,
                                   // profileUrl: _editedUser.profileUrl,
                                   zipCode: _editedUser.zipCode,
                                   uid: _editedUser.uid,
-                                  country: _editedUser.country);
-                            },
+                                );
+                              },
+                            ),
                           ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.person,
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 5.0),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.location_on,
                                   color: Theme.of(context).primaryColor,
                                 ),
-                                labelText: 'State'),
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please provide a value.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _editedUser = User(
-                                userName: _editedUser.userName,
-                                contact: _editedUser.contact,
-                                state: value,
-                                address: _editedUser.address,
-                                email: _editedUser.email,
-                                city: _editedUser.city,
-                                // profileUrl: _editedUser.profileUrl,
-                                zipCode: _editedUser.zipCode,
-                                uid: _editedUser.uid,
-                                country: _editedUser.country,
-                              );
-                            },
+                                labelText: 'Address',
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ),
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please provide a value.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _editedUser = User(
+                                  userName: _editedUser.userName,
+                                  contact: _editedUser.contact,
+                                  state: _editedUser.state,
+                                  address: value,
+                                  email: _editedUser.email,
+                                  city: _editedUser.city,
+                                  // profileUrl: _editedUser.profileUrl,
+                                  zipCode: _editedUser.zipCode,
+                                  uid: _editedUser.uid,
+                                  country: _editedUser.country,
+                                );
+                              },
+                            ),
                           ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.person,
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 5.0),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.code,
                                   color: Theme.of(context).primaryColor,
                                 ),
-                                labelText: 'City'),
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please provide a value.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _editedUser = User(
-                                userName: _editedUser.userName,
-                                contact: _editedUser.contact,
-                                state: _editedUser.state,
-                                address: _editedUser.address,
-                                email: _editedUser.email,
-                                city: value,
-                                // profileUrl: _editedUser.profileUrl,
-                                zipCode: _editedUser.zipCode,
-                                uid: _editedUser.uid,
-                                country: _editedUser.country,
-                              );
-                            },
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.person,
-                                  color: Theme.of(context).primaryColor,
+                                labelText: 'ZipCode',
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).accentColor,
                                 ),
-                                labelText: 'Country'),
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please provide a value.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _editedUser = User(
-                                userName: _editedUser.userName,
-                                contact: _editedUser.contact,
-                                state: _editedUser.state,
-                                country: value,
-                                address: _editedUser.address,
-                                email: _editedUser.email,
-                                city: _editedUser.city,
-                                // profileUrl: _editedUser.profileUrl,
-                                zipCode: _editedUser.zipCode,
-                                uid: _editedUser.uid,
-                              );
-                            },
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.person,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                labelText: 'ZipCode'),
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please provide a value.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _editedUser = User(
-                                userName: _editedUser.userName,
-                                contact: _editedUser.contact,
-                                state: _editedUser.state,
-                                country: _editedUser.country,
-                                address: _editedUser.address,
-                                email: _editedUser.email,
-                                city: _editedUser.city,
-                                // profileUrl: _editedUser.profileUrl,
-                                zipCode: value,
-                                uid: _editedUser.uid,
-                              );
-                            },
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.person,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                labelText: 'Address'),
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please provide a value.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _editedUser = User(
-                                userName: _editedUser.userName,
-                                contact: _editedUser.contact,
-                                state: _editedUser.state,
-                                address: value,
-                                email: _editedUser.email,
-                                city: _editedUser.city,
-                                // profileUrl: _editedUser.profileUrl,
-                                zipCode: _editedUser.zipCode,
-                                uid: _editedUser.uid,
-                                country: _editedUser.country,
-                              );
-                            },
+                              ),
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please provide a value.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _editedUser = User(
+                                  userName: _editedUser.userName,
+                                  contact: _editedUser.contact,
+                                  state: _editedUser.state,
+                                  country: _editedUser.country,
+                                  address: _editedUser.address,
+                                  email: _editedUser.email,
+                                  city: _editedUser.city,
+                                  // profileUrl: _editedUser.profileUrl,
+                                  zipCode: value,
+                                  uid: _editedUser.uid,
+                                );
+                              },
+                            ),
                           ),
                           // TextFormField(
                           //   decoration: InputDecoration(
@@ -561,25 +606,113 @@ class _AuthCardState extends State<AuthCard> {
                           //     );
                           //   },
                           // ),
-                          TextFormField(
-                            enabled: _authMode == AuthMode.Signup,
-                            decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.lock,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                labelText: 'Confirm Password'),
-                            obscureText: true,
-                            validator: _authMode == AuthMode.Signup
-                                ? (value) {
-                                    if (value != _passwordController.text) {
-                                      return 'Passwords do not match!';
-                                    }
-                                    return null;
-                                  }
-                                : null,
-                          ),
                         ],
+                      )
+                    : Container(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Theme.of(context).primaryColor, width: 5.0),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      prefixIcon: Icon(
+                        Icons.email,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      labelText: 'E-Mail',
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).accentColor,
+                      ),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value.isEmpty || !value.contains('@')) {
+                        return 'Invalid email!';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _authData['email'] = value;
+                      _editedUser = User(
+                        userName: _editedUser.userName,
+                        contact: _editedUser.contact,
+                        state: _editedUser.state,
+                        address: _editedUser.address,
+                        email: value,
+                        city: _editedUser.city,
+                        // profileUrl: _editedUser.profileUrl,
+                        zipCode: _editedUser.zipCode,
+                        uid: _editedUser.uid,
+                        country: _editedUser.country,
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Theme.of(context).primaryColor, width: 5.0),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      labelText: 'Password',
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).accentColor,
+                      ),
+                    ),
+                    obscureText: true,
+                    controller: _passwordController,
+                    validator: (value) {
+                      if (value.isEmpty || value.length < 5) {
+                        return 'Password is too short!';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _authData['password'] = value;
+                    },
+                  ),
+                ),
+                _authMode == AuthMode.Signup
+                    ? Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                        child: TextFormField(
+                          enabled: _authMode == AuthMode.Signup,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 5.0),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            labelText: 'Confirm Password',
+                            labelStyle: TextStyle(
+                              color: Theme.of(context).accentColor,
+                            ),
+                          ),
+                          obscureText: true,
+                          validator: _authMode == AuthMode.Signup
+                              ? (value) {
+                                  if (value != _passwordController.text) {
+                                    return 'Passwords do not match!';
+                                  }
+                                  return null;
+                                }
+                              : null,
+                        ),
                       )
                     : Container(),
                 SizedBox(
@@ -598,7 +731,7 @@ class _AuthCardState extends State<AuthCard> {
                         ),
                         padding: EdgeInsets.symmetric(
                             horizontal: 30.0, vertical: 8.0),
-                        color: Theme.of(context).accentColor,
+                        color: Colors.grey[400],
                         textColor: Theme.of(context).primaryColor,
                       ),
                 FlatButton(
