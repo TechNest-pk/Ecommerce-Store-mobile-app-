@@ -17,7 +17,8 @@ class AuthScreen extends StatelessWidget {
     // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
     // transformConfig.translate(-10.0);
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.transparent,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
           Container(
@@ -26,8 +27,8 @@ class AuthScreen extends StatelessWidget {
                 colors: [
                   //0, 51, 0
                   //211, 211, 211
-                  Color.fromRGBO(75, 86, 82, 1),
-                  Color.fromRGBO(8, 112, 89, 1),
+                  Color.fromRGBO(75, 86, 82, 1).withOpacity(0.9),
+                  Color.fromRGBO(8, 112, 89, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -35,8 +36,14 @@ class AuthScreen extends StatelessWidget {
               ),
             ),
           ),
-          Center(
-            child: AuthCard(),
+          SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: AuthCard(),
+              ),
+            ),
           ),
           // SingleChildScrollView(
           //   child: Container(
@@ -661,7 +668,7 @@ class _AuthCardState extends State<AuthCard> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       prefixIcon: Icon(
-                        Icons.lock,
+                        Icons.lock_outline,
                         color: Theme.of(context).primaryColor,
                       ),
                       labelText: 'Password',

@@ -4,7 +4,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.grey,
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -27,7 +27,7 @@ class Profile extends StatelessWidget {
                   fontFamily: 'Source Sans Pro',
                   fontWeight: FontWeight.bold,
                   letterSpacing: 2.5,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).accentColor,
                   fontSize: 20.0,
                 ),
               ),
@@ -35,7 +35,7 @@ class Profile extends StatelessWidget {
                 height: 20.0,
                 width: 200,
                 child: Divider(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).accentColor,
                 ),
               ),
               Card(

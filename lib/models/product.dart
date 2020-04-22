@@ -2,7 +2,7 @@ class Product{
   final String id;
   final String title;
   final String description;
-  final double price;
+  final int price;
   final int sale;
   final String imageUrl;
   bool outOfStock;

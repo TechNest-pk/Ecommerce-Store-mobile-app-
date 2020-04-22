@@ -6,6 +6,7 @@ import '../widgets/Categories_circle.dart';
 import '../widgets/newArrival.dart';
 import '../widgets/popular_items.dart';
 import '../screens/categories_overview_screen.dart';
+import '../screens/products_overview.dart';
 import '../widgets/appDrawer.dart';
 import '../widgets/profile.dart';
 
@@ -68,10 +69,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        title: Center(
-          child: Text('E-Commerce Store'),
-        ),
+        title: Text('E-Commerce Store'),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(icon: Icon(Icons.search), onPressed: () {
+                }),
+          ),
+        ],
       ),
       drawer: AppDrawer(),
       body: Center(
@@ -122,19 +129,31 @@ class Home extends StatelessWidget {
             )
         ],
             image: DecorationImage(
-              image: AssetImage('images/E-commerce.jpg'),
+              image: NetworkImage('https://pbs.twimg.com/media/B9wNcbQIEAEfUeS?format=png&name=small'),
               fit: BoxFit.cover,
             ),
             // borderRadius: BorderRadius.circular(8.0),
           ),
           child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Text(
-              '',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28),
+            alignment: Alignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'E-Commerce',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28),
+                ),
+                Text(
+                  'All your fashion needs under one roof',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18),
+                ),
+              ],
             ),
           ),
         ),
@@ -156,7 +175,7 @@ class Home extends StatelessWidget {
                 'See All',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.red,
+                  color: Theme.of(context).primaryColor,
                   decoration: TextDecoration.underline,
                   decorationThickness: 2.85,
                 ),
@@ -182,7 +201,7 @@ class Home extends StatelessWidget {
                 'See All',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.red,
+                  color: Theme.of(context).primaryColor,
                   decoration: TextDecoration.underline,
                   decorationThickness: 2.85,
                 ),

@@ -39,6 +39,16 @@ class CategoriesOverviewScreen extends StatelessWidget {
     title: 'Mens Shoes',
     imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQSk_1KslNBCOEcu5Ud8c_mm_jwA6pKHjoBlWsLz_WfUY_3t05H',
   ),
+  Categorie(
+    id: '7',
+    title: 'Makeup',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQtbqRqrDShn8zqknIBFCstTn9vQupSqv2MR3t82Hxdyco5PkzQ',
+  ),
+  Categorie(
+    id: '8',
+    title: 'Mens Products',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT14NJ4eNJzRwmKA2kRLEcd4torqm2F0wKJxbakpWHQezjNsw-a',
+  ),
   ];
 
   @override
@@ -47,6 +57,7 @@ class CategoriesOverviewScreen extends StatelessWidget {
       // appBar: AppBar(
       //   title: Text('Categories'),
       // ),
+      backgroundColor: Colors.grey[300],
       body: GridView.builder(
         padding: const EdgeInsets.all(10.0),
         itemCount: loadedProducts.length,

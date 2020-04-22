@@ -3,11 +3,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 class NewArrival extends StatelessWidget {
   List _imgList = [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ4lrIdut3UKnYdwZ84MduWhGNhkdVyHGWWhXNAW8z6rFAtEqPU',
-    'https://i.ytimg.com/vi/jiBL43AmAO4/maxresdefault.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQF2KEWUxozG_A1sKdWVpeyuA1mfEUCF-rvmkZNnXvZ03X7LOsp',
+    'https://i.pinimg.com/originals/ef/f7/a6/eff7a62c0fdd65f3879c29d6700de36d.jpg',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRzGcuhMQSOTQgVC8NCJj3hU9z2gifuG13J3KIQRuqBLmiO4Q2Q&usqp=CAU',
+    'https://image.freepik.com/free-vector/winter-sale-banner-template-fashion-stores_9111-1054.jpg',
     'https://i.ytimg.com/vi/6AnFrFDn0KU/maxresdefault.jpg',
-    'https://image.made-in-china.com/2f0j00vdDEAmyMPtqO/Blue-Ball-Gowns-3D-Flowers-Tulle-Wedding-Bridal-Dresses-Z5004.jpg'
+    'https://smdanishiqbal.github.io/HyperBazaar/images/cat3.jpg',
+    'https://suvidhashopping.com/images/banner/topbanner/BAN1_1551250249_GE5PMJUK.png'
   ];
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class NewArrival extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CarouselSlider(
-                height: 150,
+                height: 200,
                 initialPage: 0,
                 enlargeCenterPage: true,
                 autoPlay: true,
