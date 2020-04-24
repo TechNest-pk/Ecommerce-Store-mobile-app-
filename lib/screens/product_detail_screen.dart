@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/cart.dart';
+import '../widgets/badge.dart';
+import '../screens/cart_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   static const routeName = '/product-detail';
@@ -11,6 +16,7 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -26,10 +32,33 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context, listen: false);
     return Scaffold(
+      key: _scaffoldKey,  
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text('Baby Dress'),
+        actions: <Widget>[
+          Row(
+            children: <Widget>[
+              IconButton(icon: Icon(Icons.search), onPressed: () {}),
+              Consumer<Cart>(
+            builder: (_, cart, ch) => Badge(
+              child: ch,
+              value: cart.itemCount.toString(),
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+            ),
+          ),
+            ],
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -298,7 +327,30 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                       ),
                     ],
                   ),
-                  onPressed: () {}),
+                  onPressed: () {
+                    cart.addItem('1', 1120, 'Baby Dress');
+                    _scaffoldKey.currentState.hideCurrentSnackBar();
+                    _scaffoldKey.currentState.showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.white24,
+                        content: Text(
+                          'Added item to cart!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        duration: Duration(seconds: 5),
+                        action: SnackBarAction(
+                          textColor: Theme.of(context).primaryColor,
+                          label: 'UNDO',
+                          onPressed: () {
+                            cart.removeSingleItem('1');
+                          },
+                        ),
+                      ),
+                    );
+                  }),
             )
           ],
         ),

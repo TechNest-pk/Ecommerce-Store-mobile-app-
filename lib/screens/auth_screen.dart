@@ -1,10 +1,10 @@
-import 'package:ecommerce_store/providers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/http_exception.dart';
 import '../providers/auth.dart';
+import '../models/user.dart';
 
 enum AuthMode { Signup, Login }
 

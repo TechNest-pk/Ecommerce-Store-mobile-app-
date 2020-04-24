@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/product_detail_screen.dart';
 
@@ -12,7 +13,7 @@ class ProductItem extends StatelessWidget {
 
   ProductItem(this.id, this.title, this.description, this.price, this.sale,
       this.imageUrl);
-
+    
   @override
   Widget build(BuildContext context) {
     return ClipRRect(

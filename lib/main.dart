@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './providers/auth.dart';
+import './providers/products.dart';
+import './providers/cart.dart';
 import './screens/products_overview.dart';
 import './screens/product_detail_screen.dart';
 import './screens/home_screen.dart';
 import './screens/categories_overview_screen.dart';
+import './screens/cart_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,6 +20,12 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(
           value: Auth(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Products(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Cart(),
         ),
       ],
       child: Consumer<Auth>(
@@ -37,6 +46,7 @@ class MyApp extends StatelessWidget {
             ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
             CategoriesOverviewScreen.routeName: (ctx) =>
                 CategoriesOverviewScreen(),
+            CartScreen.routeName: (ctx) => CartScreen(),
           }),
       ),
     );
