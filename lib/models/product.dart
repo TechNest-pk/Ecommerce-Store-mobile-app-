@@ -5,7 +5,7 @@ class Product{
   final int price;
   final int sale;
   final String imageUrl;
-  bool outOfStock;
+  final bool outOfStock;
 
   Product({
     this.id,
@@ -14,5 +14,6 @@ class Product{
     this.price,
     this.sale,
     this.imageUrl,
+    this.outOfStock,
   });
 }

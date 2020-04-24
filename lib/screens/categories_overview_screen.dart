@@ -69,16 +69,10 @@ class CategoriesOverviewScreen extends StatelessWidget {
               actions: <Widget>[
                 Row(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: IconButton(
-                          icon: Icon(Icons.search), onPressed: () {}),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: IconButton(
-                          icon: Icon(Icons.shopping_cart), onPressed: () {}),
-                    ),
+                    IconButton(
+                        icon: Icon(Icons.search), onPressed: () {}),
+                    IconButton(
+                        icon: Icon(Icons.shopping_cart), onPressed: () {}),
                   ],
                 ),
               ],
