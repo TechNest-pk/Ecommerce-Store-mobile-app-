@@ -6,7 +6,6 @@ import '../widgets/Categories_circle.dart';
 import '../widgets/newArrival.dart';
 import '../widgets/popular_items.dart';
 import '../screens/categories_overview_screen.dart';
-import '../screens/products_overview.dart';
 import '../widgets/appDrawer.dart';
 import '../widgets/profile.dart';
 
@@ -40,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   //     // print(userData.uid);
   //     print(user.email);
   //     print(user.uid);
-       
+
   //   } catch (e) {
   //     print(e);
   //   }
@@ -70,17 +69,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        title: Text('E-Commerce Store'),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: IconButton(icon: Icon(Icons.search), onPressed: () {
-                }),
-          ),
-        ],
-      ),
-      drawer: AppDrawer(),
+      // appBar: AppBar(
+      //   title: Text('E-Commerce Store'),
+      //   actions: <Widget>[
+      //     Padding(
+      //       padding: const EdgeInsets.all(10.0),
+      //       child: IconButton(icon: Icon(Icons.search), onPressed: () {}),
+      //     ),
+      //   ],
+      // ),
+      // drawer: AppDrawer(),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -105,7 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).primaryColor,
-        unselectedIconTheme: IconThemeData(color: Theme.of(context).accentColor),
+        unselectedIconTheme:
+            IconThemeData(color: Theme.of(context).accentColor),
         onTap: _onItemTapped,
       ),
     );
@@ -115,102 +114,145 @@ class _HomeScreenState extends State<HomeScreen> {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Container(
-          height: 220,
-          decoration: BoxDecoration(
-            boxShadow: [
-            BoxShadow(
-                color: Theme.of(context).accentColor,
-                blurRadius: 2.0,
-                spreadRadius: 0.0,
-                offset: Offset(2.0, 3.0), // shadow direction: bottom right
-            )
-        ],
-            image: DecorationImage(
-              image: NetworkImage('https://pbs.twimg.com/media/B9wNcbQIEAEfUeS?format=png&name=small'),
-              fit: BoxFit.cover,
-            ),
-            // borderRadius: BorderRadius.circular(8.0),
+    return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              elevation: 2,
+              actions: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(icon: Icon(Icons.search), onPressed: () {}),
           ),
-          child: Align(
-            alignment: Alignment.center,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+          Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: IconButton(
+                          icon: Icon(Icons.shopping_cart), onPressed: () {}),
+                    ),
+                  ],
+                ),
+              ],
+              expandedHeight: 220.0,
+              floating: true,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+                  title: Align(
+                    alignment: Alignment(0, 0.5),
+                    child: Text("E-Commerce Store",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        )),
+                  ),
+                  background: Image.network(
+                    'https://pbs.twimg.com/media/B9wNcbQIEAEfUeS?format=png&name=small',
+                    fit: BoxFit.cover,
+                  )),
+            ),
+          ];
+        },
+        body: ListView(
+          children: <Widget>[
+            // Container(
+            //   height: 220,
+            //   decoration: BoxDecoration(
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Theme.of(context).accentColor,
+            //         blurRadius: 2.0,
+            //         spreadRadius: 0.0,
+            //         offset: Offset(2.0, 3.0), // shadow direction: bottom right
+            //       )
+            //     ],
+            //     image: DecorationImage(
+            //       image: NetworkImage(
+            //           'https://pbs.twimg.com/media/B9wNcbQIEAEfUeS?format=png&name=small'),
+            //       fit: BoxFit.cover,
+            //     ),
+            //     // borderRadius: BorderRadius.circular(8.0),
+            //   ),
+            //   child: Align(
+            //     alignment: Alignment.center,
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.center,
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: <Widget>[
+            //         Text(
+            //           'E-Commerce',
+            //           style: TextStyle(
+            //               color: Colors.white,
+            //               fontWeight: FontWeight.bold,
+            //               fontSize: 28),
+            //         ),
+            //         Text(
+            //           'All your fashion needs under one roof',
+            //           style: TextStyle(color: Colors.white, fontSize: 18),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            CategoriesCircle(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Text(
-                  'E-Commerce',
+                  'New Arrivals',
+                  textAlign: TextAlign.start,
                   style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Theme.of(context).accentColor,
+                  ),
                 ),
-                Text(
-                  'All your fashion needs under one roof',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18),
+                GestureDetector(
+                  child: Text(
+                    'See All',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                      decoration: TextDecoration.underline,
+                      decorationThickness: 2.85,
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-        ),
-        CategoriesCircle(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text(
-              'New Arrivals',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: Theme.of(context).accentColor,
-              ),
-            ),
-            GestureDetector(
-              child: Text(
-                'See All',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
-                  decoration: TextDecoration.underline,
-                  decorationThickness: 2.85,
+            NewArrival(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text(
+                  'Popular Items',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
-              ),
+                GestureDetector(
+                  child: Text(
+                    'See All',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                      decoration: TextDecoration.underline,
+                      decorationThickness: 2.85,
+                    ),
+                  ),
+                ),
+              ],
             ),
+            PopularItems(),
           ],
         ),
-        NewArrival(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text(
-              'Popular Items',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Theme.of(context).accentColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            GestureDetector(
-              child: Text(
-                'See All',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
-                  decoration: TextDecoration.underline,
-                  decorationThickness: 2.85,
-                ),
-              ),
-            ),
-          ],
-        ),
-        PopularItems(),
-      ],
+      ),
+      drawer: AppDrawer(),
     );
   }
 }

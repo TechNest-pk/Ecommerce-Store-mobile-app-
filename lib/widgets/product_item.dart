@@ -55,9 +55,13 @@ class ProductItem extends StatelessWidget {
                     ),
                   ),
                   ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
                     child: Container(
+                      height: 20,
+                      width: 70,
                       color: Colors.grey,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(Icons.star, size: 11, color: Colors.red),
                           Icon(Icons.star, size: 11, color: Colors.red),
@@ -77,7 +81,7 @@ class ProductItem extends StatelessWidget {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ],
