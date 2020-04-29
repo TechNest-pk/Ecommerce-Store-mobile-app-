@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../models/http_exception.dart';
 import '../providers/auth.dart';
@@ -36,14 +36,52 @@ class AuthScreen extends StatelessWidget {
               ),
             ),
           ),
-          SingleChildScrollView(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Center(
-                child: AuthCard(),
+          ListView(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 1.3,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: AuthCard(),
+                  ),
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: OutlineButton(
+                  splashColor: Colors.white,
+                  onPressed: () {},
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40)),
+                  highlightElevation: 0,
+                  borderSide: BorderSide(color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image(
+                            image: AssetImage("images/google_logo.png"),
+                            height: 35.0),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Sign in with Google',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           // SingleChildScrollView(
           //   child: Container(
@@ -278,7 +316,7 @@ class _AuthCardState extends State<AuthCard> {
       elevation: 8.0,
       child: Container(
         height: _authMode == AuthMode.Signup
-            ? MediaQuery.of(context).size.height * 0.85
+            ? deviceSize.height * 0.65
             : 280,
         constraints:
             BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 400 : 260),
@@ -374,216 +412,216 @@ class _AuthCardState extends State<AuthCard> {
                               },
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Theme.of(context).primaryColor,
-                                      width: 5.0),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.location_on,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                labelText: 'State',
-                                labelStyle: TextStyle(
-                                  color: Theme.of(context).accentColor,
-                                ),
-                              ),
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please provide a value.';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _editedUser = User(
-                                  userName: _editedUser.userName,
-                                  contact: _editedUser.contact,
-                                  state: value,
-                                  address: _editedUser.address,
-                                  email: _editedUser.email,
-                                  city: _editedUser.city,
-                                  // profileUrl: _editedUser.profileUrl,
-                                  zipCode: _editedUser.zipCode,
-                                  uid: _editedUser.uid,
-                                  country: _editedUser.country,
-                                );
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Theme.of(context).primaryColor,
-                                      width: 5.0),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.location_city,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                labelText: 'City',
-                                labelStyle: TextStyle(
-                                  color: Theme.of(context).accentColor,
-                                ),
-                              ),
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please provide a value.';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _editedUser = User(
-                                  userName: _editedUser.userName,
-                                  contact: _editedUser.contact,
-                                  state: _editedUser.state,
-                                  address: _editedUser.address,
-                                  email: _editedUser.email,
-                                  city: value,
-                                  // profileUrl: _editedUser.profileUrl,
-                                  zipCode: _editedUser.zipCode,
-                                  uid: _editedUser.uid,
-                                  country: _editedUser.country,
-                                );
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Theme.of(context).primaryColor,
-                                      width: 5.0),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.location_on,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                labelText: 'Country',
-                                labelStyle: TextStyle(
-                                  color: Theme.of(context).accentColor,
-                                ),
-                              ),
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please provide a value.';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _editedUser = User(
-                                  userName: _editedUser.userName,
-                                  contact: _editedUser.contact,
-                                  state: _editedUser.state,
-                                  country: value,
-                                  address: _editedUser.address,
-                                  email: _editedUser.email,
-                                  city: _editedUser.city,
-                                  // profileUrl: _editedUser.profileUrl,
-                                  zipCode: _editedUser.zipCode,
-                                  uid: _editedUser.uid,
-                                );
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Theme.of(context).primaryColor,
-                                      width: 5.0),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.location_on,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                labelText: 'Address',
-                                labelStyle: TextStyle(
-                                  color: Theme.of(context).accentColor,
-                                ),
-                              ),
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please provide a value.';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _editedUser = User(
-                                  userName: _editedUser.userName,
-                                  contact: _editedUser.contact,
-                                  state: _editedUser.state,
-                                  address: value,
-                                  email: _editedUser.email,
-                                  city: _editedUser.city,
-                                  // profileUrl: _editedUser.profileUrl,
-                                  zipCode: _editedUser.zipCode,
-                                  uid: _editedUser.uid,
-                                  country: _editedUser.country,
-                                );
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Theme.of(context).primaryColor,
-                                      width: 5.0),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.code,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                labelText: 'ZipCode',
-                                labelStyle: TextStyle(
-                                  color: Theme.of(context).accentColor,
-                                ),
-                              ),
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please provide a value.';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _editedUser = User(
-                                  userName: _editedUser.userName,
-                                  contact: _editedUser.contact,
-                                  state: _editedUser.state,
-                                  country: _editedUser.country,
-                                  address: _editedUser.address,
-                                  email: _editedUser.email,
-                                  city: _editedUser.city,
-                                  // profileUrl: _editedUser.profileUrl,
-                                  zipCode: value,
-                                  uid: _editedUser.uid,
-                                );
-                              },
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                          //   child: TextFormField(
+                          //     decoration: InputDecoration(
+                          //       border: OutlineInputBorder(
+                          //         borderSide: BorderSide(
+                          //             color: Theme.of(context).primaryColor,
+                          //             width: 5.0),
+                          //         borderRadius: BorderRadius.circular(30),
+                          //       ),
+                          //       prefixIcon: Icon(
+                          //         Icons.location_on,
+                          //         color: Theme.of(context).primaryColor,
+                          //       ),
+                          //       labelText: 'State',
+                          //       labelStyle: TextStyle(
+                          //         color: Theme.of(context).accentColor,
+                          //       ),
+                          //     ),
+                          //     keyboardType: TextInputType.text,
+                          //     validator: (value) {
+                          //       if (value.isEmpty) {
+                          //         return 'Please provide a value.';
+                          //       }
+                          //       return null;
+                          //     },
+                          //     onSaved: (value) {
+                          //       _editedUser = User(
+                          //         userName: _editedUser.userName,
+                          //         contact: _editedUser.contact,
+                          //         state: value,
+                          //         address: _editedUser.address,
+                          //         email: _editedUser.email,
+                          //         city: _editedUser.city,
+                          //         // profileUrl: _editedUser.profileUrl,
+                          //         zipCode: _editedUser.zipCode,
+                          //         uid: _editedUser.uid,
+                          //         country: _editedUser.country,
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
+                          // Padding(
+                          //   padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                          //   child: TextFormField(
+                          //     decoration: InputDecoration(
+                          //       border: OutlineInputBorder(
+                          //         borderSide: BorderSide(
+                          //             color: Theme.of(context).primaryColor,
+                          //             width: 5.0),
+                          //         borderRadius: BorderRadius.circular(30),
+                          //       ),
+                          //       prefixIcon: Icon(
+                          //         Icons.location_city,
+                          //         color: Theme.of(context).primaryColor,
+                          //       ),
+                          //       labelText: 'City',
+                          //       labelStyle: TextStyle(
+                          //         color: Theme.of(context).accentColor,
+                          //       ),
+                          //     ),
+                          //     keyboardType: TextInputType.text,
+                          //     validator: (value) {
+                          //       if (value.isEmpty) {
+                          //         return 'Please provide a value.';
+                          //       }
+                          //       return null;
+                          //     },
+                          //     onSaved: (value) {
+                          //       _editedUser = User(
+                          //         userName: _editedUser.userName,
+                          //         contact: _editedUser.contact,
+                          //         state: _editedUser.state,
+                          //         address: _editedUser.address,
+                          //         email: _editedUser.email,
+                          //         city: value,
+                          //         // profileUrl: _editedUser.profileUrl,
+                          //         zipCode: _editedUser.zipCode,
+                          //         uid: _editedUser.uid,
+                          //         country: _editedUser.country,
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
+                          // Padding(
+                          //   padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                          //   child: TextFormField(
+                          //     decoration: InputDecoration(
+                          //       border: OutlineInputBorder(
+                          //         borderSide: BorderSide(
+                          //             color: Theme.of(context).primaryColor,
+                          //             width: 5.0),
+                          //         borderRadius: BorderRadius.circular(30),
+                          //       ),
+                          //       prefixIcon: Icon(
+                          //         Icons.location_on,
+                          //         color: Theme.of(context).primaryColor,
+                          //       ),
+                          //       labelText: 'Country',
+                          //       labelStyle: TextStyle(
+                          //         color: Theme.of(context).accentColor,
+                          //       ),
+                          //     ),
+                          //     keyboardType: TextInputType.text,
+                          //     validator: (value) {
+                          //       if (value.isEmpty) {
+                          //         return 'Please provide a value.';
+                          //       }
+                          //       return null;
+                          //     },
+                          //     onSaved: (value) {
+                          //       _editedUser = User(
+                          //         userName: _editedUser.userName,
+                          //         contact: _editedUser.contact,
+                          //         state: _editedUser.state,
+                          //         country: value,
+                          //         address: _editedUser.address,
+                          //         email: _editedUser.email,
+                          //         city: _editedUser.city,
+                          //         // profileUrl: _editedUser.profileUrl,
+                          //         zipCode: _editedUser.zipCode,
+                          //         uid: _editedUser.uid,
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
+                          // Padding(
+                          //   padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                          //   child: TextFormField(
+                          //     decoration: InputDecoration(
+                          //       border: OutlineInputBorder(
+                          //         borderSide: BorderSide(
+                          //             color: Theme.of(context).primaryColor,
+                          //             width: 5.0),
+                          //         borderRadius: BorderRadius.circular(30),
+                          //       ),
+                          //       prefixIcon: Icon(
+                          //         Icons.location_on,
+                          //         color: Theme.of(context).primaryColor,
+                          //       ),
+                          //       labelText: 'Address',
+                          //       labelStyle: TextStyle(
+                          //         color: Theme.of(context).accentColor,
+                          //       ),
+                          //     ),
+                          //     keyboardType: TextInputType.text,
+                          //     validator: (value) {
+                          //       if (value.isEmpty) {
+                          //         return 'Please provide a value.';
+                          //       }
+                          //       return null;
+                          //     },
+                          //     onSaved: (value) {
+                          //       _editedUser = User(
+                          //         userName: _editedUser.userName,
+                          //         contact: _editedUser.contact,
+                          //         state: _editedUser.state,
+                          //         address: value,
+                          //         email: _editedUser.email,
+                          //         city: _editedUser.city,
+                          //         // profileUrl: _editedUser.profileUrl,
+                          //         zipCode: _editedUser.zipCode,
+                          //         uid: _editedUser.uid,
+                          //         country: _editedUser.country,
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
+                          // Padding(
+                          //   padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                          //   child: TextFormField(
+                          //     decoration: InputDecoration(
+                          //       border: OutlineInputBorder(
+                          //         borderSide: BorderSide(
+                          //             color: Theme.of(context).primaryColor,
+                          //             width: 5.0),
+                          //         borderRadius: BorderRadius.circular(30),
+                          //       ),
+                          //       prefixIcon: Icon(
+                          //         Icons.code,
+                          //         color: Theme.of(context).primaryColor,
+                          //       ),
+                          //       labelText: 'ZipCode',
+                          //       labelStyle: TextStyle(
+                          //         color: Theme.of(context).accentColor,
+                          //       ),
+                          //     ),
+                          //     keyboardType: TextInputType.text,
+                          //     validator: (value) {
+                          //       if (value.isEmpty) {
+                          //         return 'Please provide a value.';
+                          //       }
+                          //       return null;
+                          //     },
+                          //     onSaved: (value) {
+                          //       _editedUser = User(
+                          //         userName: _editedUser.userName,
+                          //         contact: _editedUser.contact,
+                          //         state: _editedUser.state,
+                          //         country: _editedUser.country,
+                          //         address: _editedUser.address,
+                          //         email: _editedUser.email,
+                          //         city: _editedUser.city,
+                          //         // profileUrl: _editedUser.profileUrl,
+                          //         zipCode: value,
+                          //         uid: _editedUser.uid,
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
                           // TextFormField(
                           //   decoration: InputDecoration(
                           //       icon: Icon(
