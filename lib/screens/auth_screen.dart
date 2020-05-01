@@ -1,6 +1,8 @@
+import 'package:ecommerce_store/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/http_exception.dart';
 import '../providers/auth.dart';
@@ -10,6 +12,29 @@ enum AuthMode { Signup, Login }
 
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';
+
+  
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = new GoogleSignIn();
+
+  Future<FirebaseUser> _signIn() async {
+    GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    GoogleSignInAuthentication gsa = await googleSignInAccount.authentication;
+
+    // FirebaseUser user = await _auth.signInWithGoogle(
+    //     idToken: gsa.idToken, accessToken: gsa.accessToken);
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: gsa.accessToken,
+      idToken: gsa.idToken,
+    );
+    final FirebaseUser user =
+        (await _auth.signInWithCredential(credential)).user;
+    print("User Name : ${user.email}");
+
+    return user;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +77,10 @@ class AuthScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: OutlineButton(
                   splashColor: Colors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    _signIn();
+                    Navigator.of(context).pushNamed(HomeScreen.routeName);
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40)),
                   highlightElevation: 0,
