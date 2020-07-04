@@ -7,13 +7,30 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/http_exception.dart';
 import '../providers/auth.dart';
 import '../models/user.dart';
+import '../phoneAuth/otp_screen.dart';
 
 enum AuthMode { Signup, Login }
 
+// ignore: must_be_immutable
 class AuthScreen extends StatelessWidget {
+
+  AuthScreen({Key key}) : super(key: key);
+
   static const routeName = '/auth';
 
-  
+  final TextEditingController _phoneNumberController = TextEditingController();
+
+  bool isValid = false;
+
+  Future<Null> validate(StateSetter updateState) async {
+    print("in validate : ${_phoneNumberController.text.length}");
+    if (_phoneNumberController.text.length == 10) {
+      updateState(() {
+        isValid = true;
+      });
+    }
+  }
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = new GoogleSignIn();
 
@@ -35,10 +52,9 @@ class AuthScreen extends StatelessWidget {
     return user;
   }
 
-
   @override
   Widget build(BuildContext context) {
-    // final deviceSize = MediaQuery.of(context).size;
+    final deviceSize = MediaQuery.of(context).size;
     // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
     // transformConfig.translate(-10.0);
     return Scaffold(
@@ -66,7 +82,9 @@ class AuthScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  height: MediaQuery.of(context).size.height / 1.3,
+                  height: deviceSize.height <= 600
+                      ? deviceSize.height / 3
+                      : deviceSize.height / 1.4,
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: AuthCard(),
@@ -98,6 +116,162 @@ class AuthScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Sign in with Google',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: OutlineButton(
+                  splashColor: Colors.white,
+                  onPressed: () {
+                    print("pressed");
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (BuildContext bc) {
+                          print("VALID CC: $isValid");
+                          return StatefulBuilder(builder:
+                              (BuildContext context, StateSetter state) {
+                            return Container(
+                              padding: EdgeInsets.all(16),
+                              height: MediaQuery.of(context).size.height * 0.7,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    'LOGIN',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.lightBlueAccent),
+                                  ),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Text(
+                                    'Login/Create Account quickly to manage orders',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 0),
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      controller: _phoneNumberController,
+                                      autofocus: true,
+                                      onChanged: (text) {
+                                        validate(state);
+                                      },
+                                      decoration: InputDecoration(
+                                        labelStyle: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                        labelText: "10 digit mobile number",
+                                        prefix: Container(
+                                          padding: EdgeInsets.all(4.0),
+                                          margin: EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            "+92",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                      autovalidate: true,
+                                      autocorrect: false,
+                                      maxLengthEnforced: true,
+                                      validator: (value) {
+                                        return !isValid
+                                            ? 'Please provide a valid 10 digit phone number'
+                                            : null;
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(16),
+                                    child: Center(
+                                      child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.85,
+                                        child: RaisedButton(
+                                          color: !isValid
+                                              ? Theme.of(context)
+                                                  .primaryColor
+                                                  .withOpacity(0.5)
+                                              : Theme.of(context).primaryColor,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0)),
+                                          child: Text(
+                                            !isValid
+                                                ? "ENTER PHONE NUMBER"
+                                                : "CONTINUE",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          onPressed: () {
+                                            if (isValid) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        OTPScreen(
+                                                      mobileNumber:
+                                                          _phoneNumberController
+                                                              .text,
+                                                    ),
+                                                  ));
+                                            } else {
+                                              validate(state);
+                                            }
+                                          },
+                                          padding: EdgeInsets.all(16.0),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                        });
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40)),
+                  highlightElevation: 0,
+                  borderSide: BorderSide(color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.phone, size: 35.0, color: Colors.blue),
+                        // Image(
+                        //     image: AssetImage("images/google_logo.png"),
+                        //     height: 35.0),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Sign in with Phone',
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.white,
@@ -343,9 +517,7 @@ class _AuthCardState extends State<AuthCard> {
       ),
       elevation: 8.0,
       child: Container(
-        height: _authMode == AuthMode.Signup
-            ? deviceSize.height * 0.65
-            : 280,
+        height: _authMode == AuthMode.Signup ? deviceSize.height * 0.65 : 280,
         constraints:
             BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 400 : 260),
         width: deviceSize.width * 0.85,
@@ -440,6 +612,7 @@ class _AuthCardState extends State<AuthCard> {
                               },
                             ),
                           ),
+
                           // Padding(
                           //   padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                           //   child: TextFormField(

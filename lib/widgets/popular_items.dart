@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/products_overview.dart';
 
+// ignore: must_be_immutable
 class PopularItems extends StatelessWidget {
 
   List imgList = [

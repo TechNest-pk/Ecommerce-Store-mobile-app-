@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+// ignore: must_be_immutable
 class NewArrival extends StatelessWidget {
   List _imgList = [
     'https://i.pinimg.com/originals/ef/f7/a6/eff7a62c0fdd65f3879c29d6700de36d.jpg',
@@ -20,7 +21,8 @@ class NewArrival extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CarouselSlider(
-                height: 200,
+                options: CarouselOptions(
+                  height: 200,
                 initialPage: 0,
                 enlargeCenterPage: true,
                 autoPlay: true,
@@ -28,8 +30,8 @@ class NewArrival extends StatelessWidget {
                 enableInfiniteScroll: true,
                 autoPlayInterval: Duration(seconds: 2),
                 autoPlayAnimationDuration: Duration(milliseconds: 2000),
-                pauseAutoPlayOnTouch: Duration(seconds: 10),
                 scrollDirection: Axis.horizontal,
+                ),
                 items: _imgList.map((imgUrl) {
                   return Builder(
                     builder: (BuildContext context) {

@@ -389,13 +389,16 @@ class _ProductListState extends State<ProductList> {
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             CarouselSlider(
-              initialPage: 0,
+              options: CarouselOptions(
+                initialPage: 0,
               scrollDirection: Axis.horizontal,
-              onPageChanged: (index) {
+              onPageChanged: (index, _) {
                 setState(() {
                   _current = index;
                 });
               },
+              ),
+              
               items: _productsImg.map((imgUrl) {
                 return Builder(
                   builder: (BuildContext context) {

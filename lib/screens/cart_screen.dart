@@ -34,6 +34,7 @@ class CartScreen extends StatelessWidget {
                     label: Text(
                       'Rs: ${cart.totalAmount.toStringAsFixed(0)}',
                       style: TextStyle(
+                        // ignore: deprecated_member_use
                         color: Theme.of(context).primaryTextTheme.title.color,
                       ),
                     ),

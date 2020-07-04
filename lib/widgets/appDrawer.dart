@@ -11,11 +11,10 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-
   FirebaseUser user;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _getUserData();
   }
@@ -24,16 +23,16 @@ class _AppDrawerState extends State<AppDrawer> {
     try {
       FirebaseUser userData = await FirebaseAuth.instance.currentUser();
 
-      if(userData != null){
+      if (userData != null) {
         setState(() {
           user = userData;
         });
-      }else{
+      } else {
         print('nothing found');
       }
       // print(user.email);
       // print(user.uid);
-       
+
     } catch (e) {
       print(e);
     }
@@ -57,22 +56,23 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-  Widget buildTile(name, icon, nevigation) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(name),
-      onTap: () {
-        Navigator.of(context).pushNamed(nevigation);
-      },
-    );
-  }
+    Widget buildTile(name, icon, nevigation) {
+      return ListTile(
+        leading: Icon(icon),
+        title: Text(name),
+        onTap: () {
+          Navigator.of(context).pushNamed(nevigation);
+        },
+      );
+    }
+
     return Drawer(
       child: ListView(
         children: <Widget>[
           Container(
             height: 200,
             child: UserAccountsDrawerHeader(
-            //  decoration: BoxDecoration(image: DecorationImage(image: AssetImage("img/mazzad.png"))),
+              //  decoration: BoxDecoration(image: DecorationImage(image: AssetImage("img/mazzad.png"))),
               accountName: Text('Batool Ali'),
               accountEmail: Text('scorpion.batool@gmail.com'),
               currentAccountPicture: CircleAvatar(
@@ -90,60 +90,66 @@ class _AppDrawerState extends State<AppDrawer> {
             },
           ),
           Divider(),
-              buildSeparators("Registeration"),
-              buildTile(
-                "Login",
-                FontAwesomeIcons.lock,
-                AuthScreen.routeName,
-              ),
-              buildTile(
-                "SignUp",
-                FontAwesomeIcons.user,
-                AuthScreen.routeName,
-              ),
-              Divider(),
-              buildSeparators("Categories"),
-              buildTile(
-                "Mens Fashion",
-                FontAwesomeIcons.male,
-                HomeScreen.routeName,
-              ),
-              buildTile(
-                "Womens Fashion",
-                FontAwesomeIcons.female,
-                HomeScreen.routeName,
-              ),
-              buildTile(
-                "Kids",
-                FontAwesomeIcons.baby,
-                HomeScreen.routeName,
-              ),
-              buildTile(
-                "Electronics",
-                FontAwesomeIcons.plug,
-                HomeScreen.routeName,
-              ),
-              buildTile(
-                "Computer",
-                FontAwesomeIcons.laptop,
-                HomeScreen.routeName,
-              ),
-               buildSeparators("Help Center"),
-                  buildTile(
-                    "Feedback",
-                    Icons.message,
-                HomeScreen.routeName,
-                  ),
-                  buildTile(
-                    "About payment",
-                    Icons.payment,
-                HomeScreen.routeName,
-                  ),
-                  buildTile(
-                    "About Shipping",
-                    FontAwesomeIcons.truck,
-                HomeScreen.routeName,
-                  ),
+          buildSeparators("Registeration"),
+          buildTile(
+            "Login",
+            FontAwesomeIcons.lock,
+            AuthScreen.routeName,
+          ),
+          buildTile(
+            "SignUp",
+            FontAwesomeIcons.user,
+            AuthScreen.routeName,
+          ),
+          Divider(),
+          buildSeparators("Categories"),
+          buildTile(
+            "Mens Fashion",
+            FontAwesomeIcons.male,
+            HomeScreen.routeName,
+          ),
+          buildTile(
+            "Womens Fashion",
+            FontAwesomeIcons.female,
+            HomeScreen.routeName,
+          ),
+          buildTile(
+            "Kids",
+            FontAwesomeIcons.baby,
+            HomeScreen.routeName,
+          ),
+          buildTile(
+            "Electronics",
+            FontAwesomeIcons.plug,
+            HomeScreen.routeName,
+          ),
+          buildTile(
+            "Computer",
+            FontAwesomeIcons.laptop,
+            HomeScreen.routeName,
+          ),
+          buildSeparators("Help Center"),
+          buildTile(
+            "Feedback",
+            Icons.message,
+            HomeScreen.routeName,
+          ),
+          buildTile(
+            "About payment",
+            Icons.payment,
+            HomeScreen.routeName,
+          ),
+          buildTile(
+            "About Shipping",
+            FontAwesomeIcons.truck,
+            HomeScreen.routeName,
+          ),
+          buildSeparators("Help Center"),
+          buildTile(
+            "LOGOUT",
+            FontAwesomeIcons.signOutAlt,
+            FirebaseAuth.instance.signOut(),
+          ),
         ],
       ),
     );

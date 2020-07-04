@@ -6,3 +6,9 @@
         <item name="android:windowBackground">@drawable/launch_background</item>
     </style>
 </resources>
+
+<!-- <resources>
+    <string name="app_name">E-Commerce Store</string>
+    <string name="facebook_app_id">193220074999737</string>
+    <string name="fb_login_protocol_scheme">YOUR_PORTAL_SCHEME</string>
+</resources> -->
